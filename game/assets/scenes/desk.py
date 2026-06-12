@@ -3,9 +3,22 @@ from enum import Enum
 from scene_manager import Scene
 from assets_registry import Assets
 from classes import AnimatedButton, Button, get_clicked_button, scale_hover, tint_hover, format_background
-from config import BORDER, SCREEN_WIDTH
+from config import BORDER, SCREEN_WIDTH, FONT
 from game_manager import game_data
 
+_SURVEYOR_NAMES = {
+    1: "Surveyor Bob",
+    2: "Surveyor Dave",
+    3: "Surveyor Michael",
+}
+
+_SURVEYOR_ICONS = {
+    1: Assets.animations.surveyor_1_icon,
+    2: Assets.animations.surveyor_2_icon,
+    3: Assets.animations.surveyor_3_icon,
+}
+
+_COL_LABEL = (220, 200, 140)
 
 SURVEYOR_MAP_ANIM = {
     1: Assets.animations.map_1,
@@ -126,11 +139,27 @@ class DeskScene(Scene):
     # --------------------------------------------------------------- drawing
 
     def _draw_maps(self):
+        # Left — player's map
         self.screen.blit(Assets.animations.my_map.current_frame.image, (50, 100))
+        self._draw_map_label(50, 70, "Your Map", Assets.animations.my_map_icon)
 
+        # Right — selected surveyor's map
         surveyor_anim = SURVEYOR_MAP_ANIM.get(game_data.current_map)
         if surveyor_anim:
             self.screen.blit(surveyor_anim.current_frame.image, (450, 100))
+            name = _SURVEYOR_NAMES.get(game_data.current_map, "")
+            icon = _SURVEYOR_ICONS.get(game_data.current_map)
+            self._draw_map_label(450, 70, name, icon)
+
+    def _draw_map_label(self, x: int, y: int, name: str, icon):
+        icon_surf = icon.current_frame.image if icon else None
+        draw_x = x
+        if icon_surf:
+            self.screen.blit(icon_surf, (draw_x, y))
+            draw_x += icon_surf.get_width() + 6
+        label = FONT.render(name, True, _COL_LABEL)
+        label_y = y + ((icon_surf.get_height() - label.get_height()) // 2 if icon_surf else 0)
+        self.screen.blit(label, (draw_x, label_y))
 
     def _draw_buttons(self):
         for btn in self.nav_buttons:
