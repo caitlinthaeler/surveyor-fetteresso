@@ -1,4 +1,10 @@
 {
   "default": "first_meeting",
-  "entries": []
+  "entries": [
+    {
+      "requires_all": ["michael_anomaly_found"],
+      "requires_none": [],
+      "file": "initial_investigation"
+    }
+  ]
 }

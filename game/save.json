@@ -1,9 +1,10 @@
 {
   "player_name": "Player",
-  "current_map": 2,
+  "current_map": 3,
   "flags": {
     "intro_seen": true,
     "map_crumpled": true,
-    "surveyor_two_met": true
+    "michael_anomaly_found": true,
+    "sus_michael": true
   }
 }
