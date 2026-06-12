@@ -1,0 +1,11 @@
+{
+  "id": "first_meeting_end",
+  "lines": [
+    {"speaker": "Surveyor Bob", "text": "That's all I have to say for now. Come back when you have specific questions."}
+  ],
+  "next": {
+    "type": "exit",
+    "to": "world_map",
+    "flags_raise": []
+  }
+}

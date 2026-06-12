@@ -1,0 +1,14 @@
+{
+  "id": "greeting",
+  "lines": [
+    {"speaker": "Surveyor Bob", "text": "You again. What do you need?"}
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {"text": "I have more questions for you about this hill", "file": "hill_inquiry"},
+      {"text": "Nothing, just passing by", "file": "calm_greeting_end"}
+    ]
+  }
+}

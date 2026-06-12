@@ -1,0 +1,16 @@
+{
+  "id": "first_meeting",
+  "lines": [
+    {"speaker": "Surveyor Bob", "text": "Hello there, I'm Bob"},
+    {"speaker": "Surveyor Bob", "text": "Welcome to my office. I'm an amazing upa nd coming cartographer"},
+     {"speaker": "Surveyor Bob", "text": "You should choose me as your assistant, I know I would be a great help to you."}
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": ["surveyor_one_met"],
+    "options": [
+      {"text": "Tell me more about yourself", "file": "first_meeting_inquiry"},
+      {"text": "What makes you say that?", "file": "first_meeting_context"}
+    ]
+  }
+}

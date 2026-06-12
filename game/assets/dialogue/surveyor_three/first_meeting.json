@@ -1,0 +1,11 @@
+{
+  "id": "first_meeting",
+  "lines": [
+    {"speaker": "Surveyor Michael", "text": "Hello there, I'm Michael"}
+  ],
+  "next": {
+    "type": "exit",
+    "to": "world_map",
+    "flags_raise": ["surveyor_three_met"]
+  }
+}

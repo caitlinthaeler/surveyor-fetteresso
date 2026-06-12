@@ -1,0 +1,11 @@
+{
+  "id": "end_michael",
+  "lines": [
+    {"speaker": "Surveyor Michael", "text": "A wise choice. I have some ideas about where we should look next."}
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": ["assistant_michael"],
+    "to": "menu"
+  }
+}

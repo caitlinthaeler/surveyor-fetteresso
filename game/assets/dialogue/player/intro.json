@@ -1,0 +1,12 @@
+{
+  "id": "intro",
+  "lines": [
+    {"speaker": "You", "text": "I must find a suitable assistant cartographer"},
+    {"speaker": "You", "text": "There are 3 potential candidates, time to invesigate how competant they are..."}
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": ["intro_seen"],
+    "to": "office"
+  }
+}

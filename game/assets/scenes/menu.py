@@ -4,6 +4,7 @@ from config import SOUNDS_DIR, UI_PATH, SCREEN_HEIGHT, SCREEN_WIDTH, FONT, BORDE
 from scene_manager import Scene
 from classes import Button, BackButton, get_clicked_button, format_background
 from assets_registry import Assets
+from game_manager import NewGame
 from enum import Enum
 import pygame
 
@@ -17,8 +18,9 @@ class MenuState(Enum):
 
 
 class MenuScene(Scene):
-    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
+    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock, game):
         super().__init__(screen, clock)
+        self._game = game
         self.state = MenuState.CHOICES
 
         # scene actions
@@ -66,12 +68,13 @@ class MenuScene(Scene):
     def update(self) -> str | None:
         if self.state == MenuState.NEW_GAME:
             self.state = MenuState.CHOICES
-            return "office"
+            self._game.save()
+            return "introduction"
         elif self.state == MenuState.CONTINUE:
             self.state = MenuState.CHOICES
-            return "continue"
+            self._game.load()
+            return "world_map"
         elif self.state == MenuState.QUIT:
-                
             return "quit"
         return None
 
@@ -82,10 +85,9 @@ class MenuScene(Scene):
 
 
     def render_start_screen(self):
-        print('rendering start screen')
-        # Draw the start screen with options to start a new game, view info, or quit
-        self.screen.blit(self.main_background, (0, 0)) # display menu graphic
-        for button in self.buttons: button.draw() # display button graphic
+        self.buttons[1].enabled = NewGame.has_save()
+        self.screen.blit(self.main_background, (0, 0))
+        for button in self.buttons: button.draw()
         for _ in self.handle_events(self.buttons): pass
 
     def render_info_screen(self):

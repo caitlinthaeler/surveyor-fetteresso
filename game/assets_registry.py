@@ -146,29 +146,57 @@ player_fps = 10
 player_run_fps = 5
 class Animations:
     world_map_icon= Animation([
-        Frame(path="items/exitButton.png", size=(16, 16)),
-        Frame(path="items/exitButton.png", size=(16, 16),)
+        Frame(path="items/exitButton.png"),
+        Frame(path="items/exitButton.png")
         ], ticks_per_frame=30)
     
     menu_icon = Animation([
-        Frame(path="items/exitButton.png", size=(16, 16)),
-        Frame(path="items/exitButton.png", size=(16, 16),)
+        Frame(path="items/exitButton.png"),
+        Frame(path="items/exitButton.png")
         ], ticks_per_frame=30)
     
-    first_map_icon = Animation([
-        Frame(path="items/exitButton.png", size=(16, 16)),
-        Frame(path="items/exitButton.png", size=(16, 16),)
+    my_map_icon = Animation([
+        Frame(path="items/exitButton.png"),
+        Frame(path="items/exitButton.png")
         ], ticks_per_frame=30)
     
-    second_map_icon = Animation([
-        Frame(path="items/exitButton.png", size=(16, 16)),
-        Frame(path="items/exitButton.png", size=(16, 16),)
+    map_1_icon = Animation([
+        Frame(path="items/exitButton.png"),
+        Frame(path="items/exitButton.png")
         ], ticks_per_frame=30)
     
-    third_map_icon = Animation([
-        Frame(path="items/exitButton.png", size=(16, 16)),
-        Frame(path="items/exitButton.png", size=(16, 16),)
+    map_2_icon = Animation([
+        Frame(path="items/exitButton.png"),
+        Frame(path="items/exitButton.png")
         ], ticks_per_frame=30)
+    
+    map_3_icon = Animation([
+        Frame(path="items/exitButton.png"),
+        Frame(path="items/exitButton.png")
+        ], ticks_per_frame=30)
+    
+    # surveyor icon animations
+    surveyor_1_icon = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    surveyor_1_icon_hover = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    
+    surveyor_2_icon = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    surveyor_2_icon_hover = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    
+    surveyor_3_icon = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    surveyor_3_icon_hover = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+
+    # dialog characters
+    surveyor_1_idle = Animation([Frame(path="items/button.png")], ticks_per_frame=30)
+
+    surveyor_2_idle = Animation([Frame(path="items/button.png")], ticks_per_frame=30)
+
+    surveyor_3_idle = Animation([Frame(path="items/button.png")], ticks_per_frame=30)
+
+
+    my_map = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    map_1 = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    map_2 = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
+    map_3 = Animation([Frame(path="items/exitButton.png")], ticks_per_frame=30)
     # Static tiles
     # column_top = Animation([Frame(path="tiles/columntop.png", size=(16, 16))])
     # column_front = Animation([Frame(path="tiles/columnfront.png", size=(16, 16))])
@@ -255,6 +283,8 @@ class Sound:
     drownshock = SoundEffect(path="shock.mp3")
     thumping_rain = SoundEffect(path="thumping_rain.mp3", volume=1.5, loop=True)
     game_start = SoundEffect(path="game_start.mp3")
+    anomaly_click = SoundEffect(path="shock.mp3", volume=0.4)
+    papers_shuffling = SoundEffect(path="papers_shuffling.mp3", volume=0.4)
 
 class Music:
     sf_menu= BackgroundMusic(path="sf_menu.wav", volume=1)

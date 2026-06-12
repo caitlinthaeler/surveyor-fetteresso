@@ -1,0 +1,12 @@
+{
+  "id": "first_meeting_context",
+  "lines": [
+    {"speaker": "Surveyor Bob", "text": "The other two cartographers are rubbish"},
+    {"speaker": "Surveyor Bob", "text": "You can't trust them."}
+  ],
+  "next": {
+    "type": "file",
+    "flags_raise": ["highly_opinionated"],
+    "file": "first_meeting_end"
+  }
+}

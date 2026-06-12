@@ -1,0 +1,10 @@
+{
+  "default": "first_meeting",
+  "entries": [
+    {
+      "requires_all": ["dave_anomaly_found"],
+      "requires_none": [],
+      "file": "initial_investigation"
+    }
+  ]
+}

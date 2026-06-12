@@ -3,28 +3,36 @@ import os
 from config import FONT, SCREEN_WIDTH, SOUNDS_DIR, UI_PATH, FONT, BORDER, SCALE_FACTOR
 from assets_registry import Animation
 
+
 class Button:
     default_button_height = 35
     default_button_width = 123
     default_sound = pygame.mixer.Sound(os.path.join(SOUNDS_DIR, "menu_selection.mp3"))
     default_sound.set_volume(0.8)
 
-    def __init__(self, surface, next_state, x, y, text, font=FONT, text_colour=(20,20,20), width=default_button_width, height=default_button_height, sound=default_sound):
+    def __init__(self, surface, next_state, x, y, text, font=FONT, text_colour=(20,20,20), width=default_button_width, height=default_button_height, sound=default_sound, enabled=True):
         self.screen = surface
         self.next_state = next_state # return value of clicking the button
-        self.base_rect = pygame.Rect(x, y, width, height) # original button dimentions and position
+        self.base_rect = pygame.Rect(x, y, width, height)
         self.rect = self.base_rect.copy() # copy, to be mutated
         self.text = text
         self.font = font
         self.text_colour = text_colour
         self.sound = sound
+        self.enabled = enabled
         self.base_image = pygame.image.load(os.path.join(UI_PATH, "button.png")).convert_alpha()
         self.background = pygame.transform.scale(self.base_image, self.rect.size)
 
     def draw(self):
         self.screen.blit(self.background, (self.rect.left, self.rect.top))
-        label = self.font.render(self.text, False, self.text_colour)
+        label = self.font.render(self.text, True, self.text_colour)
         label_rect = label.get_rect(center=self.rect.center)
+        if not self.enabled:
+            overlay = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+            overlay.fill((128, 128, 128, 160))
+            self.screen.blit(overlay, self.rect.topleft)
+            self.screen.blit(label, label_rect)
+            return
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             self.on_hover()
         else:
@@ -100,8 +108,10 @@ class AnimatedButton:
         self.screen.blit(image, self.rect.topleft)
 
         if self.text:
-            label = self.font.render(self.text, False, self.text_colour)
-            self.screen.blit(label, label.get_rect(center=self.rect.center))
+            label = self.font.render(self.text, True, self.text_colour)
+            label_rect = label.get_rect(center=self.rect.center)
+            self.screen.blit(label, label_rect)
+            self.rect = self.rect.union(label_rect)  # expand hit area to cover the label
 
     def action(self):
         return self.next_state
@@ -129,8 +139,8 @@ def tint_hover(colour: tuple, alpha: int = 80):
 
 def get_clicked_button(event, buttons):
     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-        for button in buttons: # determine if user clicked a button
-            if button.rect.collidepoint(event.pos):
+        for button in buttons:
+            if getattr(button, "enabled", True) and button.rect.collidepoint(event.pos):
                 button.play_sound()
                 return button
     return None

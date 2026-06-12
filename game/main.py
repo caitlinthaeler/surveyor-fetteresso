@@ -14,6 +14,8 @@ from assets.scenes.office import OfficeScene
 from assets.scenes.world_map import WorldMapScene
 from assets.scenes.desk import DeskScene
 from assets.scenes.surveyor import SurveyorOneScene, SurveyorTwoScene, SurveyorThreeScene
+from assets.scenes.map_crumpling import MapCrumplingScene
+from assets.scenes.introduction import IntroductionScene
 from game_manager import NewGame
 
 clock = pygame.time.Clock()
@@ -21,13 +23,15 @@ fade = Fade(screen, clock)
 
 game = NewGame()
 scene_manager = SceneManager()
-scene_manager.scenes["menu"] = MenuScene(screen, clock)
+scene_manager.scenes["menu"] = MenuScene(screen, clock, game)
 scene_manager.scenes["office"] = OfficeScene(screen, clock)
 scene_manager.scenes["world_map"] = WorldMapScene(screen, clock)
-scene_manager.scenes["desk"] = DeskScene(screen, clock)
-scene_manager.scenes["surveyor_one"] = SurveyorOneScene(screen, clock)
-scene_manager.scenes["surveyor_two"] = SurveyorTwoScene(screen, clock)
-scene_manager.scenes["surveyor_three"] = SurveyorThreeScene(screen, clock)
+scene_manager.scenes["desk"] = DeskScene(screen, clock, game)
+scene_manager.scenes["surveyor_one"] = SurveyorOneScene(screen, clock, game)
+scene_manager.scenes["surveyor_two"] = SurveyorTwoScene(screen, clock, game)
+scene_manager.scenes["surveyor_three"] = SurveyorThreeScene(screen, clock, game)
+scene_manager.scenes["map_crumpling"] = MapCrumplingScene(screen, clock, game)
+scene_manager.scenes["introduction"] = IntroductionScene(screen, clock, game)
 
 scene_manager.switch_scene("menu")
 

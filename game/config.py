@@ -4,11 +4,13 @@ import pygame
 
 
 BASE_TILE_SIZE = 16
-SCALE_FACTOR = 1.75
+SCALE_FACTOR = 1
 PIXEL_RES = int(BASE_TILE_SIZE * SCALE_FACTOR)
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-BORDER = 15
+PIXEL_MOVEMENT_X = PIXEL_RES * 16
+PIXEL_MOVEMENT_Y = PIXEL_RES * 24
+BORDER = PIXEL_RES  # 1 grid unit — keeps all offsets on the pixel grid
 
 camera_offset = (0, 0)
 

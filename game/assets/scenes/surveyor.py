@@ -1,44 +1,42 @@
 from scene_manager import Scene
+from dialogue_manager import DialogueManager
+from assets_registry import Assets
+from classes import format_background
 import pygame
 
-class SurveyorOneScene(Scene):
-    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
-        super().__init__(screen, clock)
-        self.ambience = "thumping_rain.mp3"
 
-    def update(self):
-        # Handle surveyor logic, such as interactions or events
-        pass
+class SurveyorScene(Scene):
+    surveyor_dir: str = ""
+    background_file: str = ""   # set per subclass; loaded in __init__ once screen exists
+
+    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock, game):
+        super().__init__(screen, clock)
+        self.game = game
+        self.ambience = Assets.sounds.thumping_rain
+        self._dialogue = DialogueManager(screen, clock)
+        self.background = format_background(screen, self.background_file) if self.background_file else None
+
+    def update(self) -> str | None:
+        self.render()
+        return self._dialogue.run(self.surveyor_dir, self.game) or "world_map"
 
     def render(self):
-        # Draw the surveyor on the given surface
-        self.screen.fill((0, 0, 150))  # Example background color
-        # Add code to draw surveyor elements here
+        if self.background:
+            self.screen.blit(self.background, (0, 0))
+        else:
+            self.screen.fill((20, 15, 40))
 
-class SurveyorTwoScene(Scene):
-    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
-        super().__init__(screen, clock)
-        self.ambience = "thumping_rain.mp3"
 
-    def update(self):
-        # Handle surveyor logic, such as interactions or events
-        pass
+class SurveyorOneScene(SurveyorScene):
+    surveyor_dir = "surveyor_one"
+    background_file = "button.png"
 
-    def render(self):
-        # Draw the surveyor on the given surface
-        self.screen.fill((0, 0, 200))  # Example background color
-        # Add code to draw surveyor elements here
 
-class SurveyorThreeScene(Scene):
-    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
-        super().__init__(screen, clock)
-        self.ambience = "thumping_rain.mp3"
+class SurveyorTwoScene(SurveyorScene):
+    surveyor_dir = "surveyor_two"
+    background_file = "info.png"
 
-    def update(self):
-        # Handle surveyor logic, such as interactions or events
-        pass
 
-    def render(self):
-        # Draw the surveyor on the given surface
-        self.screen.fill((0, 0, 250))  # Example background color
-        # Add code to draw surveyor elements here
+class SurveyorThreeScene(SurveyorScene):
+    surveyor_dir = "surveyor_three"
+    background_file = "spacebar.png"

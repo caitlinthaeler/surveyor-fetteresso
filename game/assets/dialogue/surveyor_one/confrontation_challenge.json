@@ -1,0 +1,12 @@
+{
+  "id": "confrontation_challenge",
+  "lines": [
+    {"speaker": "Surveyor Bob", "text": "That's strange, I was sure I marked it correctly."},
+    {"speaker": "Surveyor Bob", "text": "I'll be honest, I was too lazy to check the entire hill"}
+  ],
+  "next": {
+    "type": "exit",
+    "to": "world_map",
+    "flags_raise": ["bob_lazy"]
+  }
+}
