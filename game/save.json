@@ -3,6 +3,11 @@
   "current_map": 2,
   "flags": {
     "intro_seen": true,
-    "map_crumpled": true
+    "surveyor_three_met": true,
+    "surveyor_two_met": true,
+    "map_crumpled": true,
+    "dave_anomaly_found": true,
+    "dave_playing_dumb": true,
+    "surveyor_one_met": true
   }
 }

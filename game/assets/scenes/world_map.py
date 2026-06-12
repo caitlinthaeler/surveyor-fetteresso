@@ -51,7 +51,7 @@ class WorldMapScene(Scene):
                 animation=Assets.animations.office_icon,
                 x=SCREEN_WIDTH//2, 
                 y=SCREEN_HEIGHT//2,
-                text="office", 
+                text="", 
                 anchor="center",
                 hover_transforms=[
                     scale_hover(1.1),
