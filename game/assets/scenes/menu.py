@@ -1,0 +1,151 @@
+import os
+
+from config import SOUNDS_DIR, UI_PATH, SCREEN_HEIGHT, SCREEN_WIDTH, FONT, BORDER
+from scene_manager import Scene
+from classes import Button, BackButton, get_clicked_button, format_background
+from assets_registry import Assets
+from enum import Enum
+import pygame
+
+class MenuState(Enum):
+    CHOICES = 0 # main start screen
+    NEW_GAME = 1 # player enters name
+    INFO = 2
+    LAUNCH_GAME = 3 # exit menu
+    QUIT = 4
+    CONTINUE = 5
+
+
+class MenuScene(Scene):
+    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
+        super().__init__(screen, clock)
+        self.state = MenuState.CHOICES
+
+        # scene actions
+        self.state_actions = {
+            MenuState.CHOICES: self.render_start_screen,
+            MenuState.NEW_GAME: self.start_new_game,
+            MenuState.INFO: self.render_info_screen,
+            MenuState.QUIT: self.render_quit_screen,
+            MenuState.CONTINUE: self.continue_game,
+        }
+
+        # music and ambience
+        self.music = Assets.background_music.sf_menu
+        self.ambience = Assets.sounds.thumping_rain
+       
+        # sound effecrts:
+        self.start_sound = pygame.mixer.Sound(os.path.join(SOUNDS_DIR, "game_start.mp3"))
+        self.start_sound.set_volume(0.5)
+
+        # backgrounds
+        self.main_background = format_background(self.screen, "button.png")
+        self.info_background = format_background(self.screen, "button.png")
+
+        # adjust these parameters ONLY, to reposition buttons and popup:
+        button_x, button_y, button_y_buffer = 248, 386, 63
+        self.buttons = [
+            # define buttons' name, position, and destination state, no need to adjust:
+            Button(self.screen, MenuState.NEW_GAME, button_x, button_y, "Start"), # top left button
+            Button(self.screen, MenuState.CONTINUE, SCREEN_WIDTH-button_x-Button.default_button_width, button_y, "Continue", sound = self.start_sound), # top right
+            Button(self.screen, MenuState.INFO, button_x, button_y+button_y_buffer, "Info"), # bottom left
+            Button(self.screen, MenuState.QUIT, SCREEN_WIDTH-button_x-Button.default_button_width, button_y+button_y_buffer, "Quit"), # bottom right
+        ]
+
+        self.back_button = BackButton(self.screen, MenuState.CHOICES) # defaults only
+
+        self.spacebar = pygame.image.load(os.path.join(UI_PATH, "spacebar.png")).convert_alpha()
+        self.spacebar = pygame.transform.scale(self.spacebar, (200, 70))
+        self.info = pygame.image.load(os.path.join(UI_PATH, "info.png")).convert()
+        self.info = pygame.transform.scale(self.info, self.screen.get_size())
+
+
+
+    
+
+    def update(self) -> str | None:
+        if self.state == MenuState.NEW_GAME:
+            self.state = MenuState.CHOICES
+            return "office"
+        elif self.state == MenuState.CONTINUE:
+            self.state = MenuState.CHOICES
+            return "continue"
+        elif self.state == MenuState.QUIT:
+                
+            return "quit"
+        return None
+
+    def render(self):
+        if self.state != MenuState.LAUNCH_GAME:
+            self.state_actions[self.state]()
+        
+
+
+    def render_start_screen(self):
+        print('rendering start screen')
+        # Draw the start screen with options to start a new game, view info, or quit
+        self.screen.blit(self.main_background, (0, 0)) # display menu graphic
+        for button in self.buttons: button.draw() # display button graphic
+        for _ in self.handle_events(self.buttons): pass
+
+    def render_info_screen(self):
+        for _ in self.handle_events([self.back_button]): pass
+        self.screen.blit(self.info, (0, 0))
+        overlay = pygame.Surface((SCREEN_WIDTH-BORDER*2, SCREEN_HEIGHT-BORDER*5), pygame.SRCALPHA)
+        pygame.draw.rect(overlay, (255, 255, 255, 150), (overlay.get_rect()))
+        self.screen.blit(overlay, (BORDER, BORDER*3+10))
+        self.back_button.draw()
+
+        # display text:
+        text = [
+            "INSTRUCTION 1 BLAH BLAH BLAH BLAH BLAH",
+            "",
+            "INSTRUCTION 2 BLAH BLAH BLAH BLAH BLAH",
+            "",
+            "",
+            "To pause or restart the level, press the spacebar:",
+            "",
+        ]
+        for i, line in enumerate(text):
+            self.screen.blit(FONT.render(line,
+                True, (0, 0, 0)), (BORDER*2, BORDER*7+25*i)
+            )
+        
+        # display key graphics:
+        space_x, space_y = 572, 260
+        self.screen.blit(self.spacebar, (space_x, space_y))
+        self.screen.blit(FONT.render("space", False, (0, 0, 0)), (space_x+30, space_y+20))
+
+
+
+    def launch_game(self):
+        self.state = MenuState.LAUNCH_GAME
+        self.start_sound.play()
+
+    def render_quit_screen(self):
+        # Draw the quit confirmation screen
+        pass
+
+    def start_new_game(self):
+        self.state = MenuState.NEW_GAME
+        self.start_sound.play()
+
+    def continue_game(self):
+        self.state = MenuState.CONTINUE
+
+    def handle_events(self, buttons):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.state = MenuState.QUIT
+                return # exit immediately
+            # return button that was clicked, if there was one:
+            clicked_button = get_clicked_button(event, buttons)
+            if clicked_button:
+                self.state = clicked_button.action() # go to new menu state
+                yield clicked_button
+                continue # process remaining events
+            yield event # return remaining events, itteratively
+
+    
+
+    
