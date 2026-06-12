@@ -187,14 +187,14 @@ class Animations:
     #     ], ticks_per_frame=30)
     
     # surveyor icon animations
-    surveyor_1_icon = Animation([Frame(path="items/surveyor_1_icon.png")], ticks_per_frame=30)
-    surveyor_1_icon_hover = Animation([Frame(path="items/surveyor_1_icon.png")], ticks_per_frame=30)
+    surveyor_1_icon = Animation([Frame(path="items/surveyor_1_icon.png", size=(50, 50))], ticks_per_frame=30)
+    surveyor_1_icon_hover = Animation([Frame(path="items/surveyor_1_icon.png", size=(50, 50))], ticks_per_frame=30)
     
-    surveyor_2_icon = Animation([Frame(path="items/surveyor_2_icon.png")], ticks_per_frame=30)
-    surveyor_2_icon_hover = Animation([Frame(path="items/surveyor_2_icon.png")], ticks_per_frame=30)
+    surveyor_2_icon = Animation([Frame(path="items/surveyor_2_icon.png", size=(50, 50))], ticks_per_frame=30)
+    surveyor_2_icon_hover = Animation([Frame(path="items/surveyor_2_icon.png", size=(50, 50))], ticks_per_frame=30)
     
-    surveyor_3_icon = Animation([Frame(path="items/surveyor_3_icon.png")], ticks_per_frame=30)
-    surveyor_3_icon_hover = Animation([Frame(path="items/surveyor_3_icon.png")], ticks_per_frame=30)
+    surveyor_3_icon = Animation([Frame(path="items/surveyor_3_icon.png", size=(50, 50))], ticks_per_frame=30)
+    surveyor_3_icon_hover = Animation([Frame(path="items/surveyor_3_icon.png", size=(50, 50))], ticks_per_frame=30)
 
     # dialog characters
     surveyor_1_idle = Animation([Frame(path="items/surveyor_1.png")], ticks_per_frame=30)

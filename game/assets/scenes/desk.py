@@ -3,7 +3,9 @@ from enum import Enum
 from scene_manager import Scene
 from assets_registry import Assets
 from classes import AnimatedButton, Button, get_clicked_button, scale_hover, tint_hover, format_background
-from config import BORDER, SCREEN_WIDTH, FONT
+from config import BORDER, SCREEN_WIDTH, SCREEN_HEIGHT, FONT
+
+_MAP_SCALE = 0.85
 from game_manager import game_data
 
 _SURVEYOR_NAMES = {
@@ -34,9 +36,9 @@ SURVEYORS = {
 
 # Per-map anomaly button positions: (center_x, center_y, radius)
 _ANOMALY_POS = {
-    1: (725, 270, 50),
-    2: (720, 320, 50),
-    3: (570, 300, 50),
+    1: (700, 270, 50),
+    2: (695, 320, 50),
+    3: (545, 300, 50),
 }
 
 anomaly_flags = {
@@ -138,18 +140,33 @@ class DeskScene(Scene):
 
     # --------------------------------------------------------------- drawing
 
+    def _scale_map(self, surf: pygame.Surface) -> pygame.Surface:
+        w = int(surf.get_width() * _MAP_SCALE)
+        h = int(surf.get_height() * _MAP_SCALE)
+        return pygame.transform.scale(surf, (w, h))
+
     def _draw_maps(self):
         # Left — player's map
-        self.screen.blit(Assets.animations.my_map.current_frame.image, (50, 100))
+        my_map = self._scale_map(Assets.animations.my_map.current_frame.image)
+        self.screen.blit(my_map, (50, 100))
         self._draw_map_label(50, 70, "Your Map", Assets.animations.my_map_icon)
 
         # Right — selected surveyor's map
         surveyor_anim = SURVEYOR_MAP_ANIM.get(game_data.current_map)
         if surveyor_anim:
-            self.screen.blit(surveyor_anim.current_frame.image, (450, 100))
+            s_map = self._scale_map(surveyor_anim.current_frame.image)
+            self.screen.blit(s_map, (450, 100))
             name = _SURVEYOR_NAMES.get(game_data.current_map, "")
+            self._draw_map_label(450, 70, name, None)
+
+            # Surveyor icon — bottom right
             icon = _SURVEYOR_ICONS.get(game_data.current_map)
-            self._draw_map_label(450, 70, name, icon)
+            if icon:
+                icon_surf = icon.current_frame.image
+                self.screen.blit(icon_surf, (
+                    SCREEN_WIDTH - BORDER - icon_surf.get_width(),
+                    SCREEN_HEIGHT - BORDER - icon_surf.get_height(),
+                ))
 
     def _draw_map_label(self, x: int, y: int, name: str, icon):
         icon_surf = icon.current_frame.image if icon else None

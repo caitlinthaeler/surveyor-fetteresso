@@ -45,13 +45,13 @@ class MenuScene(Scene):
         self.info_background = format_background(self.screen, "button.png")
 
         # adjust these parameters ONLY, to reposition buttons and popup:
-        button_x, button_y, button_y_buffer = 248, 386, 63
+        btn_w, btn_h = Button.default_button_width * 2, Button.default_button_height * 2
+        button_x, button_y, button_y_buffer = 160, 386 - btn_h // 2, 58
         self.buttons = [
-            # define buttons' name, position, and destination state, no need to adjust:
-            Button(self.screen, MenuState.NEW_GAME, button_x, button_y, "Start"), # top left button
-            Button(self.screen, MenuState.CONTINUE, SCREEN_WIDTH-button_x-Button.default_button_width, button_y, "Continue", sound = self.start_sound), # top right
-            Button(self.screen, MenuState.INFO, button_x, button_y+button_y_buffer, "Info"), # bottom left
-            Button(self.screen, MenuState.QUIT, SCREEN_WIDTH-button_x-Button.default_button_width, button_y+button_y_buffer, "Quit"), # bottom right
+            Button(self.screen, MenuState.NEW_GAME, button_x, button_y, "Start", width=btn_w, height=btn_h),
+            Button(self.screen, MenuState.CONTINUE, SCREEN_WIDTH-button_x-btn_w, button_y, "Continue", width=btn_w, height=btn_h, sound=self.start_sound),
+            Button(self.screen, MenuState.INFO, button_x, button_y+button_y_buffer, "Info", width=btn_w, height=btn_h),
+            Button(self.screen, MenuState.QUIT, SCREEN_WIDTH-button_x-btn_w, button_y+button_y_buffer, "Quit", width=btn_w, height=btn_h),
         ]
 
         self.back_button = BackButton(self.screen, MenuState.CHOICES) # defaults only
