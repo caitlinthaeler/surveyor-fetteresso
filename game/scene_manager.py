@@ -65,6 +65,7 @@ class SceneManager:
             old_ambience = getattr(self.current_scene, "ambience", None)
             if old_music and old_music != getattr(new_scene, "music", None):
                 pygame.mixer.music.stop()
+                old_music.__class__.current_track = None
             if old_ambience and old_ambience != getattr(new_scene, "ambience", None):
                 old_ambience.stop()
 

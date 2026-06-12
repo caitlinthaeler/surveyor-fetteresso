@@ -149,7 +149,7 @@ class DeskScene(Scene):
         # Left — player's map
         my_map = self._scale_map(Assets.animations.my_map.current_frame.image)
         self.screen.blit(my_map, (50, 100))
-        self._draw_map_label(50, 70, "Your Map", Assets.animations.my_map_icon)
+        self._draw_map_label(50, 70, "Your Map", None)
 
         # Right — selected surveyor's map
         surveyor_anim = SURVEYOR_MAP_ANIM.get(game_data.current_map)
