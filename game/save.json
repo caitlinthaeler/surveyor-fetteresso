@@ -1,5 +1,8 @@
 {
   "player_name": "Player",
-  "current_map": null,
-  "flags": {}
+  "current_map": 2,
+  "flags": {
+    "intro_seen": true,
+    "map_crumpled": true
+  }
 }
