@@ -1,7 +1,7 @@
 {
   "id": "first_meeting",
   "lines": [
-    {"speaker": "Surveyor Dave", "text": "Hello there, I'm Dave"}
+    {"speaker": "Surveyor Dave", "text": "Hello there, I'm Dave."}
   ],
   "next": {
     "type": "exit",

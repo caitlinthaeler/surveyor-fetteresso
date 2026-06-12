@@ -1,15 +1,15 @@
 {
   "id": "initial_investigation",
   "lines": [
-    {"speaker": "Surveyor Bob", "text": "Hello there, I'm Ross. How can i help you?"},
-    {"speaker": "Surveyor Bob", "text": "I made a mistake with the hill? That can't be right"}
+    {"speaker": "Surveyor Bob", "text": "Hello there. How can I help you?"},
+    {"speaker": "Surveyor Bob", "text": "The castle? I'm not sure what you mean."}
   ],
   "next": {
     "type": "choices",
     "flags_raise": ["confronted_ross"],
     "options": [
-      {"text": "Explain yourself", "file": "confrontation_challenge"},
-      {"text": "It's ok we all make mistakes", "file": "give_up_confrontation"}
+      {"text": "Explain yourself!", "file": "confrontation_challenge"},
+      {"text": "It's ok we all make mistakes.", "file": "give_up_confrontation"}
     ]
   }
 }

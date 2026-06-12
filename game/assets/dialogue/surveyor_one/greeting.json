@@ -7,8 +7,8 @@
     "type": "choices",
     "flags_raise": [],
     "options": [
-      {"text": "I have more questions for you about this hill", "file": "hill_inquiry"},
-      {"text": "Nothing, just passing by", "file": "calm_greeting_end"}
+      {"text": "I have more questions for you about the castle.", "file": "castle_inquiry"},
+      {"text": "Nothing, just passing by.", "file": "calm_greeting_end"}
     ]
   }
 }

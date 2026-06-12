@@ -1,7 +1,7 @@
 {
   "id": "initial_investigation",
   "lines": [
-    {"speaker": "Surveyor Dave", "text": "I made a mistake with the river. I can't seem to remember"}
+    {"speaker": "Surveyor Dave", "text": "I made a mistake with the river? I can't seem to remember..."}
   ],
   "next": {
     "type": "exit",
