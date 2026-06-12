@@ -45,6 +45,14 @@ import json
 import sys
 from collections import deque
 from config import DIALOGUE_DIR, FONT, SCREEN_WIDTH, SCREEN_HEIGHT, BORDER, FPS
+from assets_registry import Assets
+
+# Map speaker names to their idle sprite. Any speaker not listed shows no sprite.
+_SPEAKER_SPRITES = {
+    "Surveyor Bob":     lambda: Assets.animations.surveyor_1_idle,
+    "Surveyor Dave":    lambda: Assets.animations.surveyor_2_idle,
+    "Surveyor Michael": lambda: Assets.animations.surveyor_3_idle,
+}
 
 _SPEED = 2          # characters revealed per frame (60 fps -> ~120 chars/sec)
 _BOX_H = 200
@@ -74,6 +82,7 @@ class DialogueManager:
         self._game = None
         self._queue: deque = deque()
         self._surveyor_dir: str = ""
+        self._last_speaker: str = ""
 
     # ------------------------------------------------------------------ public
 
@@ -151,6 +160,7 @@ class DialogueManager:
 
     def _show_line(self, speaker: str, text: str):
         """Typewriter line. Space/Right/Click: first press skips animation, second advances."""
+        self._last_speaker = speaker
         chars = 0
         total = len(text)
         done  = False
@@ -213,8 +223,18 @@ class DialogueManager:
         pygame.draw.rect(box, _COL_BORDER, box.get_rect(), 2)
         return box
 
+    def _draw_sprite(self, speaker: str):
+        getter = _SPEAKER_SPRITES.get(speaker)
+        if getter is None:
+            return
+        anim = getter()
+        anim.update()
+        surf = anim.current_frame.image
+        self.screen.blit(surf, (BORDER * 2, _BOX_Y - surf.get_height()))
+
     def _draw_line(self, speaker: str, visible: str, done: bool):
         self.screen.blit(self._bg, (0, 0))
+        self._draw_sprite(speaker)
         box = self._make_box()
 
         name_surf = FONT.render(speaker, True, _COL_SPEAKER)
@@ -235,6 +255,7 @@ class DialogueManager:
 
     def _draw_choices(self, options: list, rects: list, mouse: tuple):
         self.screen.blit(self._bg, (0, 0))
+        self._draw_sprite(self._last_speaker)
         box = self._make_box()
 
         box.blit(FONT.render("Choose your response:", True, _COL_SPEAKER), (_PAD, _PAD - 2))

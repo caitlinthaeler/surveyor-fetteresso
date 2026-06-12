@@ -150,7 +150,11 @@ class Animations:
         ], ticks_per_frame=30)
     
     menu_icon = Animation([
-        Frame(path="items/button.png"),
+        Frame(path="items/button.png", size=(100, 50))
+        ], ticks_per_frame=30)
+    
+    office_icon = Animation([
+        Frame(path="items/home_map_icon.png"),
         ], ticks_per_frame=30)
     
     my_map_icon = Animation([
@@ -168,6 +172,19 @@ class Animations:
     map_3_icon = Animation([
         Frame(path="items/surveyor_3_map.png", size=(200, 150))
         ], ticks_per_frame=30)
+    
+    
+    # map_1_on_desk = Animation([
+    #     Frame(path="items/surveyor_1_map.png", size=(300, 225))
+    #     ], ticks_per_frame=30)
+    
+    #  map_2_on_desk = Animation([
+    #     Frame(path="items/surveyor_2_map.png", size=(300, 225))
+    #     ], ticks_per_frame=30)
+    
+    #  map_3_on_desk = Animation([
+    #     Frame(path="items/surveyor_3_map.png", size=(300, 225))
+    #     ], ticks_per_frame=30)
     
     # surveyor icon animations
     surveyor_1_icon = Animation([Frame(path="items/surveyor_1_icon.png")], ticks_per_frame=30)

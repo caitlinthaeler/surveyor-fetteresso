@@ -65,6 +65,8 @@ class AnimatedButton:
                  x: int, y: int,
                  anchor: str = "topleft",
                  scale: float = SCALE_FACTOR,
+                 width: int = None,
+                 height: int = None,
                  hover_animation: Animation = None,
                  hover_inflate: tuple = (0, 0),
                  hover_transforms: list = None,
@@ -85,7 +87,10 @@ class AnimatedButton:
         self.sound = sound or Button.default_sound
 
         nw, nh = animation.current_frame.image.get_size()
-        self.base_rect = pygame.Rect(0, 0, int(nw * scale), int(nh * scale))
+        w = width  if width  is not None else int(nw * scale)
+        h = height if height is not None else int(nh * scale)
+        self._custom_size = width is not None or height is not None
+        self.base_rect = pygame.Rect(0, 0, w, h)
         setattr(self.base_rect, anchor, (x, y))
         self.rect = self.base_rect.copy()
 
@@ -95,8 +100,11 @@ class AnimatedButton:
         anim = self.hover_animation if (is_hovered and self.hover_animation) else self.idle_animation
         anim.update()
 
-        nw, nh = anim.current_frame.image.get_size()
-        image = pygame.transform.scale(anim.current_frame.image, (int(nw * self.scale), int(nh * self.scale)))
+        if self._custom_size:
+            image = pygame.transform.scale(anim.current_frame.image, self.base_rect.size)
+        else:
+            nw, nh = anim.current_frame.image.get_size()
+            image = pygame.transform.scale(anim.current_frame.image, (int(nw * self.scale), int(nh * self.scale)))
 
         if is_hovered:
             for transform in self.hover_transforms:

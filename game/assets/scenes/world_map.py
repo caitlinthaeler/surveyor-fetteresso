@@ -48,13 +48,12 @@ class WorldMapScene(Scene):
             AnimatedButton(
                 surface=self.screen,
                 next_state=WorldMapState.OFFICE, 
-                animation=Assets.animations.world_map_icon,
+                animation=Assets.animations.office_icon,
                 x=SCREEN_WIDTH//2, 
                 y=SCREEN_HEIGHT//2,
                 text="office", 
                 anchor="center",
                 hover_transforms=[
-                    tint_hover((0, 87, 72)),
                     scale_hover(1.1),
                     ],
                 sound = Assets.sounds.page_turning),
@@ -67,10 +66,8 @@ class WorldMapScene(Scene):
                 animation=Assets.animations.surveyor_1_icon,
                 x=300, 
                 y=100,
-                text="suveyor 1 office",
                 anchor="center",
                 hover_transforms=[
-                    tint_hover((87, 0, 72)),
                     scale_hover(1.1),
                     ],
                 ),
@@ -83,10 +80,8 @@ class WorldMapScene(Scene):
                 animation=Assets.animations.surveyor_2_icon,
                 x=100, 
                 y=400,
-                text="suveyor 2 office",
                 anchor="center",
                 hover_transforms=[
-                    tint_hover((87, 0, 72)),
                     scale_hover(1.1),
                     ],
                 ),
@@ -99,10 +94,8 @@ class WorldMapScene(Scene):
                 animation=Assets.animations.surveyor_3_icon,
                 x=600, 
                 y=350,
-                text="surveyor 3 office",
                 anchor="center",
                 hover_transforms=[
-                    tint_hover((87, 0, 72)),
                     scale_hover(1.1),
                     ],
                 ),
@@ -126,6 +119,7 @@ class WorldMapScene(Scene):
             return "surveyor_three"
 
     def render(self):
+        self.screen.blit(self.world_map_background, (0, 0))
         self.state_actions[self.state]()
 
     def idle(self):
