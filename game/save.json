@@ -1,13 +1,7 @@
 {
   "player_name": "Player",
-  "current_map": 2,
+  "current_map": null,
   "flags": {
-    "intro_seen": true,
-    "surveyor_three_met": true,
-    "surveyor_two_met": true,
-    "map_crumpled": true,
-    "dave_anomaly_found": true,
-    "dave_playing_dumb": true,
-    "surveyor_one_met": true
+    "intro_seen": true
   }
 }

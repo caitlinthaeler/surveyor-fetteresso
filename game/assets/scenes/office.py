@@ -47,9 +47,8 @@ class OfficeScene(Scene):
                 surface=self.screen,
                 next_state=OfficeState.WORLD_MAP,
                 animation=Assets.animations.world_map_icon,
-                x=SCREEN_WIDTH // 2, y=BORDER+50,
-            
-                anchor="center",
+                x=SCREEN_WIDTH - BORDER, y=BORDER,
+                anchor="topright",
                 hover_transforms=[tint_hover((0, 87, 72)), scale_hover(1.1)],
                 sound=Assets.sounds.page_turning,
             ),
