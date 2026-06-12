@@ -1,8 +1,9 @@
 {
   "id": "confrontation_challenge",
   "lines": [
-    {"speaker": "Surveyor Bob", "text": "That's strange, I was sure I marked it correctly."},
-    {"speaker": "Surveyor Bob", "text": "I'll be honest, I was too lazy to check the entire hill"}
+    {"speaker": "Surveyor Bob", "text": "Ok, ok. I'll tell you."},
+    {"speaker": "Surveyor Bob", "text": "The old master wanted me to... exagerate the size of Fetteresso Castle. It was very important to him, you see?"},
+    {"speaker": "Surveyor Bob", "text": "He also made it worth my while... if you catch my drift."}
   ],
   "next": {
     "type": "exit",
