@@ -36,7 +36,7 @@ SURVEYORS = {
 
 # Per-map anomaly button positions: (center_x, center_y, radius)
 _ANOMALY_POS = {
-    1: (700, 270, 50),
+    1: (680, 260, 50),
     2: (695, 320, 50),
     3: (545, 300, 50),
 }
