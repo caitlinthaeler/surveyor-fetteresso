@@ -29,14 +29,14 @@ class SurveyorScene(Scene):
 
 class SurveyorOneScene(SurveyorScene):
     surveyor_dir = "surveyor_one"
-    background_file = "button.png"
+    background_file = "surveyor_1_office.png"
 
 
 class SurveyorTwoScene(SurveyorScene):
     surveyor_dir = "surveyor_two"
-    background_file = "info.png"
+    background_file = "surveyor_2_office.png"
 
 
 class SurveyorThreeScene(SurveyorScene):
     surveyor_dir = "surveyor_three"
-    background_file = "spacebar.png"
+    background_file = "surveyor_3_office.png"

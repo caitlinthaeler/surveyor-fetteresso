@@ -35,7 +35,7 @@ class OfficeScene(Scene):
         self.music    = Assets.background_music.sf_map
         self.ambience = Assets.sounds.thumping_rain
 
-        self.office_background = format_background(self.screen, "button.png")
+        self.office_background = format_background(self.screen, "office_main.png")
 
         self.buttons = [
             AnimatedButton(

@@ -52,7 +52,7 @@ class DeskScene(Scene):
         self.music    = Assets.background_music.sf_map
         self.ambience = Assets.sounds.thumping_rain
 
-        self.desk_background = format_background(screen, "button.png")
+        self.desk_background = format_background(screen, "office_desk.png")
 
         # Nav buttons — always visible
         self.nav_buttons = [

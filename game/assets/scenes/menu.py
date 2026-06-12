@@ -41,7 +41,7 @@ class MenuScene(Scene):
         self.start_sound.set_volume(0.5)
 
         # backgrounds
-        self.main_background = format_background(self.screen, "button.png")
+        self.main_background = format_background(self.screen, "menu.png")
         self.info_background = format_background(self.screen, "button.png")
 
         # adjust these parameters ONLY, to reposition buttons and popup:

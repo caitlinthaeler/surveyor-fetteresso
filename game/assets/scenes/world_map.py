@@ -35,7 +35,7 @@ class WorldMapScene(Scene):
         self.ambience = Assets.sounds.thumping_rain
 
         # background
-        self.office_background = format_background(self.screen, "button.png")
+        self.world_map_background = format_background(self.screen, "main_map.png")
 
         # adjust these parameters ONLY, to reposition buttons and popup:
         button_x, button_y, button_y_buffer = 248, 386, 63
