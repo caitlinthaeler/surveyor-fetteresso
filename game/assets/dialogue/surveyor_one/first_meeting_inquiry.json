@@ -1,8 +1,8 @@
 {
   "id": "first_meeting_inquiry",
   "lines": [
-    {"speaker": "Surveyor Bob", "text": "I love cats"},
-    {"speaker": "Surveyor Bob", "text": "Sure has been raining a lot lately, huh?"}
+    {"speaker": "Surveyor Bob", "text": "I worked for the previous Master of Fetteresso Castle."},
+    {"speaker": "Surveyor Bob", "text": "He trusted me implicitly."}
   ],
   "next": {
     "type": "file",

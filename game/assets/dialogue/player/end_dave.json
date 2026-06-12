@@ -1,7 +1,7 @@
 {
   "id": "end_dave",
   "lines": [
-    {"speaker": "Surveyor Dave", "text": "Finally. I was starting to wonder if you'd ever choose."}
+    {"speaker": "Surveyor Dave", "text": "Finally. I was starting to wonder if you'd ever decide."}
   ],
   "next": {
     "type": "exit",

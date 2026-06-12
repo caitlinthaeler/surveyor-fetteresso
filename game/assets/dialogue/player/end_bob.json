@@ -1,7 +1,7 @@
 {
   "id": "end_bob",
   "lines": [
-    {"speaker": "Surveyor Bob", "text": "It would be an honour. I won't let you down."}
+    {"speaker": "Surveyor Bob", "text": "A wise choice. I'm sure this will be a lucrative partnership for both of us."}
   ],
   "next": {
     "type": "exit",

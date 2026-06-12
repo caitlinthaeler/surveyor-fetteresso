@@ -1,7 +1,7 @@
 {
   "id": "end_michael",
   "lines": [
-    {"speaker": "Surveyor Michael", "text": "A wise choice. I have some ideas about where we should look next."}
+    {"speaker": "Surveyor Michael", "text": "It would be an honour. I won't let you down."}
   ],
   "next": {
     "type": "exit",
