@@ -126,8 +126,8 @@ class DialogueManager:
         for entry in data.get("entries", []):
             req = entry.get("requires_all", [])
             blk = entry.get("requires_none", [])
-            if self._game.flags.check_all(req) and self._game.flags.check_none(blk):
-                return entry["file"]
+            # if self._game.flags.check_all(req) and self._game.flags.check_none(blk):
+            #     return entry["file"]
         return data.get("default")
 
     def _run_file(self, path: str):
@@ -142,8 +142,8 @@ class DialogueManager:
         for line in lines:
             self._show_line(line["speaker"], line["text"])
 
-        for flag in nxt.get("flags_raise", []):
-            self._game.raise_flag(flag)
+        # for flag in nxt.get("flags_raise", []):
+        #     self._game.raise_flag(flag)
 
         nxt_type = nxt.get("type", "exit")
         if nxt_type == "exit":

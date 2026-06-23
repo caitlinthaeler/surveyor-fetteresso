@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from assets_registry import AudioChannel
-
 import pygame
 
 class Scene(ABC):

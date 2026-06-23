@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 import config
-from config import SPRITES_DIR, SOUNDS_DIR, BASE_TILE_SIZE
+from config import SPRITES_DIR, SOUNDS_DIR, BASE_TILE_SIZE, PIECE_CELL_SIZE
 from enum import Enum
 
 
@@ -85,7 +85,58 @@ class Sprite:
 
     def get_animation(self) -> Animation | None:
         return self.animation
+
+class MarginPiece:
+    # dir = SPRITES_DIR + "pieces/"
+    dir = SPRITES_DIR
+
+    def __init__(self, path=None, x: int=0, y: int=0):
+        self.piece_id = path
+        self.x = x
+        self.y = y
+
+        # load image once
+        if path:
+            full_path = MarginPiece.dir + path
+            image = pygame.image.load(full_path).convert_alpha()
+        else:
+            image = pygame.Surface((BASE_TILE_SIZE, BASE_TILE_SIZE), pygame.SRCALPHA).convert_alpha()
+
+        self.image: pygame.Surface = image
+        # Cell set: (col, row) offsets from (0,0), built from non-transparent pixels.
+        # Step by PIECE_CELL_SIZE (10px) since source images are at 1000% scale.
+        self.pixels: set = self.cells_from_surface(image, 0, 0, PIECE_CELL_SIZE) if path else set()
+        # display_image is scaled so each cell fills exactly BASE_TILE_SIZE pixels.
+        if path and self.pixels:
+            cols = max(c for c, _ in self.pixels) + 1
+            rows = max(r for _, r in self.pixels) + 1
+            self.display_image = pygame.transform.scale(
+                image, (cols * BASE_TILE_SIZE, rows * BASE_TILE_SIZE)
+            )
+        else:
+            self.display_image = image
+
+    def get_cells_at_position(self) -> set:
+        """Return absolute (col, row) grid cells based on current x/y position."""
+        col_offset = self.x // BASE_TILE_SIZE
+        row_offset = self.y // BASE_TILE_SIZE
+        return {(col + col_offset, row + row_offset) for col, row in self.pixels}
     
+    def cells_from_surface(self, surface: pygame.Surface, world_x: int, world_y: int, cell_size: int) -> set:
+        """Build a cell set from non-transparent pixels of a surface."""
+        cells = set()
+        for px in range(0, surface.get_width(), cell_size):
+            for py in range(0, surface.get_height(), cell_size):
+                # Sample the centre of each cell block
+                sample_x = min(px + cell_size // 2, surface.get_width() - 1)
+                sample_y = min(py + cell_size // 2, surface.get_height() - 1)
+                if surface.get_at((sample_x, sample_y)).a > 0:
+                    col = (world_x + px) // cell_size
+                    row = (world_y + py) // cell_size
+                    cells.add((col, row))
+        return cells
+        
+        
 
 class AudioChannel(Enum):
     SOUND_EFFECTS = 0
@@ -144,158 +195,86 @@ class BackgroundMusic:
 
 player_fps = 10
 player_run_fps = 5
+
 class Animations:
-    world_map_icon= Animation([
-        Frame(path="items/main_map.png", size=(140, 100))
-        ], ticks_per_frame=30)
     
-    menu_icon = Animation([
-        Frame(path="items/button.png", size=(100, 50))
-        ], ticks_per_frame=30)
-    
-    office_icon = Animation([
-        Frame(path="items/home_map_icon.png"),
-        ], ticks_per_frame=30)
-    
-    my_map_icon = Animation([
-        Frame(path="items/player_map.png", size=(140, 100)),
-        ],ticks_per_frame=30)
-    
-    map_1_icon = Animation([
-        Frame(path="items/surveyor_1_map.png", size=(200, 150))
-        ], ticks_per_frame=30)
-    
-    map_2_icon = Animation([
-        Frame(path="items/surveyor_2_map.png", size=(200, 150))
-        ], ticks_per_frame=30)
-    
-    map_3_icon = Animation([
-        Frame(path="items/surveyor_3_map.png", size=(200, 150))
-        ], ticks_per_frame=30)
-    
-    
-    # map_1_on_desk = Animation([
-    #     Frame(path="items/surveyor_1_map.png", size=(300, 225))
-    #     ], ticks_per_frame=30)
-    
-    #  map_2_on_desk = Animation([
-    #     Frame(path="items/surveyor_2_map.png", size=(300, 225))
-    #     ], ticks_per_frame=30)
-    
-    #  map_3_on_desk = Animation([
-    #     Frame(path="items/surveyor_3_map.png", size=(300, 225))
-    #     ], ticks_per_frame=30)
-    
-    # surveyor icon animations
-    surveyor_1_icon = Animation([Frame(path="items/surveyor_1_icon.png", size=(100, 100))], ticks_per_frame=30)
-    surveyor_1_icon_hover = Animation([Frame(path="items/surveyor_1_icon.png", size=(100, 100))], ticks_per_frame=30)
-    
-    surveyor_2_icon = Animation([Frame(path="items/surveyor_2_icon.png", size=(100, 100))], ticks_per_frame=30)
-    surveyor_2_icon_hover = Animation([Frame(path="items/surveyor_2_icon.png", size=(100, 100))], ticks_per_frame=30)
-    
-    surveyor_3_icon = Animation([Frame(path="items/surveyor_3_icon.png", size=(100, 100))], ticks_per_frame=30)
-    surveyor_3_icon_hover = Animation([Frame(path="items/surveyor_3_icon.png", size=(100, 100))], ticks_per_frame=30)
+    menu_icon = Animation([Frame(path="items/button2.png", size=(100, 50))], ticks_per_frame=30)
+    office_icon = Animation([Frame(path="items/home_map_icon.png")], ticks_per_frame=30)
+    scribe_icon = Animation([Frame(path="items/quill_cursor.png", size=(50, 50))], ticks_per_frame=30)
 
-    # dialog characters
-    surveyor_1_idle = Animation([Frame(path="items/surveyor_1.png")], ticks_per_frame=30)
+    toggle_on = Animation([Frame(path="items/toggle_on.png", size=(100, 50)),], ticks_per_frame=30)
+    toggle_off = Animation([Frame(path="items/toggle_off.png", size=(100, 50)),], ticks_per_frame=30)
 
-    surveyor_2_idle = Animation([Frame(path="items/surveyor_2.png")], ticks_per_frame=30)
+    # hint_page = Animation([Frame(path="items/button.png")], ticks_per_frame=30)
+    book = Animation([Frame(path="items/book.png", size=(480, 320))], ticks_per_frame=30)
+    page_turning = Animation([Frame(path="items/player_map.png")], ticks_per_frame=30)
 
-    surveyor_3_idle = Animation([Frame(path="items/surveyor_3.png")], ticks_per_frame=30)
+    level_1_hint_1 = Animation([Frame(path="hints/hint_test_1_1.png")], ticks_per_frame=30)
+    level_1_hint_2 = Animation([Frame(path="hints/hint_test_1_2.png")], ticks_per_frame=30)
+    level_1_hint_3 = Animation([Frame(path="hints/hint_test_1_3.png")], ticks_per_frame=30)
 
+    level_2_hint_1 = Animation([Frame(path="hints/hint_test_2_1.png")], ticks_per_frame=30)
+    level_2_hint_2 = Animation([Frame(path="hints/hint_test_2_2.png")], ticks_per_frame=30)
+    level_2_hint_3 = Animation([Frame(path="hints/hint_test_2_3.png")], ticks_per_frame=30)
 
-    my_map = Animation([Frame(path="items/player_map.png")], ticks_per_frame=30)
-    map_1 = Animation([Frame(path="items/surveyor_1_map.png")], ticks_per_frame=30)
-    map_2 = Animation([Frame(path="items/surveyor_2_map.png")], ticks_per_frame=30)
-    map_3 = Animation([Frame(path="items/surveyor_3_map.png")], ticks_per_frame=30)
-    # Static tiles
-    # column_top = Animation([Frame(path="tiles/columntop.png", size=(16, 16))])
-    # column_front = Animation([Frame(path="tiles/columnfront.png", size=(16, 16))])
-    # floor = Animation([Frame(path="tiles/floor.png", size=(16, 16))])
-    # floor_cracked = Animation([Frame(path="tiles/floorcracked.png", size=(16, 16))])
-    # wall = Animation([Frame(path="tiles/wall.png", size=(16, 16))])
-    # wall_cracked = Animation([Frame(path="tiles/wallcracked.png", size=(16, 16))])
-    # wall_top_hor = Animation([Frame(path="tiles/walltophor.png", size=(16, 16))])
-    # wall_top_ver = Animation([Frame(path="tiles/walltopvert.png", size=(16, 16))])
-    # water = Animation([
-    #     Frame(path="tiles/watertrap1.png"),
-    #     Frame(path="tiles/watertrap2.png"),
-    #     Frame(path="tiles/watertrap3.png"),
-    #     Frame(path="tiles/watertrap4.png"),], ticks_per_frame=270, loop=True)
-    # void = Animation([
-    #     Frame(path="tiles/voidtrap1.png"),
-    #     Frame(path="tiles/voidtrap2.png"),
-    #     Frame(path="tiles/voidtrap3.png"),
-    #     Frame(path="tiles/voidtrap4.png"),], ticks_per_frame=180, loop=True)
+    level_3_hint_1 = Animation([Frame(path="hints/hint_test_3_1.png")], ticks_per_frame=30)
+    level_3_hint_2 = Animation([Frame(path="hints/hint_test_3_2.png")], ticks_per_frame=30)
+    level_3_hint_3 = Animation([Frame(path="hints/hint_test_3_3.png")], ticks_per_frame=30)
 
+    artefact_icon_1 = Animation([Frame(path="items/player_map.png")], ticks_per_frame=30)
+    artefact_icon_2 = Animation([Frame(path="items/player_map.png")], ticks_per_frame=30)
+    artefact_icon_3 = Animation([Frame(path="items/player_map.png")], ticks_per_frame=30)
+    artefact_icon_4 = Animation([Frame(path="items/player_map.png")], ticks_per_frame=30)
 
-    # # structures
-    # open_door_front = Animation([Frame(path="structures/gate_open_front.png", offset=(0, -10))])
-    # open_door_left = Animation([Frame(path="structures/gate_open_side.png", offset=(0, 12))])
-    # open_door_right = Animation([Frame(path="structures/gate_open_side.png", offset=(0, 12))])
-    # open_door_back = Animation([Frame(path="structures/gate_open_front.png", offset=(0, -10))])
+    solution_1 = Animation([Frame(path="items/margin_test_0.png")], ticks_per_frame=30)
+    solution_2 = Animation([Frame(path="items/margin_test_1.png")], ticks_per_frame=30)
+    solution_3 = Animation([Frame(path="items/margin_test_2.png")], ticks_per_frame=30)
 
-    # closed_door_front = Animation([Frame(path="structures/gate_closed_front.png", offset=(0, 2))])
-    # closed_door_left = Animation([Frame(path="structures/gate_closed_side.png", offset=(12, 0))])
-    # closed_door_right = Animation([Frame(path="structures/gate_closed_side.png", offset=(12, 0))])
-    # closed_door_back = Animation([Frame(path="structures/gate_closed_front.png", offset=(0, 2))])
+    book_flip_animation = Animation([
+        Frame(path="items/book_flip_animation1.png", size=(480, 320)),
+        Frame(path="items/book_flip_animation2.png", size=(480, 320)),
+        Frame(path="items/book_flip_animation3.png", size=(480, 320)),
+        Frame(path="items/book_flip_animation4.png", size=(480, 320)),
+        Frame(path="items/book_flip_animation5.png", size=(480, 320)),
+        Frame(path="items/book_flip_animation6.png", size=(480, 320)),
+        Frame(path="items/book_flip_animation7.png", size=(480, 320)),], ticks_per_frame=5)
 
-    # torch_lit_front = Animation([
-    #     Frame(path="structures/torch_lit_front_1.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_front_2.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_front_3.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_front_4.png", offset=(0, -4)),
-    #     ], ticks_per_frame=90, loop=True)
-    # torch_lit_left = Animation([
-    #     Frame(path="structures/torch_lit_left_1.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_left_2.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_left_3.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_left_4.png", offset=(0, -4)),
-    #     ], ticks_per_frame=30, loop=True)
-    # torch_lit_right = Animation([
-    #     Frame(path="structures/torch_lit_right_1.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_right_2.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_right_3.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_right_4.png", offset=(0, -4)),
-    #     ], ticks_per_frame=30, loop=True)
-    
-    # portal = Animation([Frame(path="structures/portal.png")])
-    
-    # torch_unlit_front = Animation([Frame(path="structures/torch_unlit_front.png", offset=(0, -4))])
-    # torch_unlit_left = Animation([Frame(path="structures/torch_unlit_left.png", offset=(0, -4))])
-    # torch_unlit_right = Animation([Frame(path="structures/torch_unlit_right.png", offset=(0, -4))])
-    # visbility_overlay = Animation([Frame(color=(0, 0, 0, 180), size=(800, 600))])
+    coin_animation = Animation([
+        Frame(path="items/coin1.png", size=(32, 32)),
+        Frame(path="items/coin2.png", size=(32, 32)),
+        Frame(path="items/coin3.png", size=(32, 32)),
+        Frame(path="items/coin4.png", size=(32, 32)),
+        Frame(path="items/coin5.png", size=(32, 32)),
+        Frame(path="items/coin6.png", size=(32, 32)),
+        Frame(path="items/coin7.png", size=(32, 32)),
+        Frame(path="items/coin8.png", size=(32, 32)),], ticks_per_frame=12, loop=True)
 
-    # # items
-    # scroll = Animation([
-    #     Frame(path="items/scroll.png", size=(16, 16)),
-    #     Frame(path="items/scroll.png", size=(16, 16), offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # fire_spell = Animation([
-    #     Frame(path="items/firespell.png"),
-    #     Frame(path="items/firespell.png", offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # water_spell = Animation([
-    #     Frame(path="items/waterspell.png"),
-    #     Frame(path="items/waterspell.png", offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # grass_spell = Animation([
-    #     Frame(path="items/grassspell.png"),
-    #     Frame(path="items/grassspell.png", offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # deactivated_spell = Animation([Frame(path="items/deactivatedspell.png", size=(16, 16))])
-
+class MarginPieces:
+    test_piece = MarginPiece(path="pieces/organic_shape.png")
+    margin_piece_1 = MarginPiece(path="pieces/piece_test_1.png")
+    margin_piece_2 = MarginPiece(path="pieces/piece_test_2.png")
+    margin_piece_3 = MarginPiece(path="pieces/piece_test_3.png")
+    margin_piece_4 = MarginPiece(path="pieces/piece_test_4.png")
+    margin_piece_5 = MarginPiece(path="pieces/piece_test_5.png")
 
 class Sound:
     birds_chirping = SoundEffect(path="birds_chirping.mp3")
     page_turning = SoundEffect(path="book.mp3", volume=2)
     confirm = SoundEffect(path="confirm.mp3")
-    default_button_click = SoundEffect(path="menu_selection.mp3", volume=0.4, loop=True)
+    default_button_click = SoundEffect(path="menu_selection.mp3", volume=0.4)
     drownshock = SoundEffect(path="shock.mp3")
     thumping_rain = SoundEffect(path="thumping_rain.mp3", volume=1.5, loop=True)
     game_start = SoundEffect(path="game_start.mp3")
     anomaly_click = SoundEffect(path="shock.mp3", volume=0.4)
     papers_shuffling = SoundEffect(path="papers_shuffling.mp3", volume=0.4)
+    menu2 = SoundEffect(path="menu2.wav", volume=0.4)
+    women_murmuring = SoundEffect(path="female murmore.mp3", volume=0.3, loop=True)
+    coins_added = SoundEffect(path="coins added.mp3", volume=0.8)
+    bookpage = SoundEffect(path="bookpage.mp3", volume=0.8)
+    drop_item = SoundEffect(path="drop item.mp3", volume=0.8)
+    pickup = SoundEffect(path="pick up.mp3", volume=0.8)
+
+
 
 class Music:
     sf_menu= BackgroundMusic(path="sf_menu.wav", volume=1)
@@ -309,3 +288,4 @@ class Assets:
     animations = Animations
     sounds = Sound
     background_music = Music
+    pieces = MarginPieces
