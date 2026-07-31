@@ -1,7 +1,7 @@
-from config import SCREEN_WIDTH, SCREEN_HEIGHT, BORDER
+from config import SCREEN_WIDTH, SCREEN_HEIGHT, BORDER, FONT
 from scene_manager import Scene
 from assets_registry import Assets, Animation, Frame
-from classes import AnimatedButton, get_clicked_button, format_background, scale_hover, tint_hover, draw_label
+from classes import AnimatedButton, get_clicked_button, format_background, scale_hover, tint_hover
 import pygame
 from enum import Enum
 from game_manager import game_data
@@ -12,23 +12,25 @@ def _invisible_anim(w: int, h: int) -> Animation:
 
 
 # Original centres for the 3 surveyor map icons — adjust to match your artwork.
-ARTEFACT_ORIGINS = [
-    (50, 100),   # artefact 1 top left
-    (200, 250),   # arefact 2 top right
-    (50, 100),   # artefact 3 bottom left
-    (200, 250),   # artefact 4 bottom right
+_MAP_ORIGINS = [
+    (180, 150),   # map 1
+    (300, 150),   # map 2
+    (225, 250),   # map 3
 ]
-# Where the selected artefact icon slides to on the desk.
-ARTEFACT_TABLE_CENTER = (SCREEN_WIDTH - 200, SCREEN_HEIGHT - 150)
+# Where the selected map icon slides to on the desk.
+_MAP_DESK_CENTER = (SCREEN_WIDTH - 200, SCREEN_HEIGHT - 150)
 
 
 class OfficeState(Enum):
     MENU       = 0
-    SCRIBE     = 1
-    ARTEFACT   = 2
+    WORLD_MAP  = 1
+    DESK       = 2
     IDLE       = 3
     QUIT       = 4
-    BOOK_FLIP  = 5
+    SURVEYOR_1 = 5
+    SURVEYOR_2 = 6
+    SURVEYOR_3 = 7
+
 
 class OfficeScene(Scene):
     def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock):
@@ -36,20 +38,17 @@ class OfficeScene(Scene):
         self.state = OfficeState.IDLE
 
         self.music    = Assets.background_music.sf_map
-        self.ambience = Assets.sounds.women_murmuring
+        self.ambience = Assets.sounds.thumping_rain
 
         self.office_background = format_background(self.screen, "office_main.png")
 
         self.buttons = [
             AnimatedButton(
                 surface=self.screen,
-                next_state=OfficeState.BOOK_FLIP,
-                animation=Assets.animations.scribe_icon,
+                next_state=OfficeState.WORLD_MAP,
+                animation=Assets.animations.world_map_icon,
                 x=SCREEN_WIDTH - BORDER, y=BORDER,
                 anchor="topright",
-                text="scribe",
-                text_offset=(-10, 40),
-                text_colour=(255, 255, 255),
                 hover_transforms=[tint_hover((0, 87, 72)), scale_hover(1.1)],
                 sound=Assets.sounds.page_turning,
             ),
@@ -61,64 +60,72 @@ class OfficeScene(Scene):
                 text="menu",
                 hover_transforms=[tint_hover((87, 0, 72)), scale_hover(1.1)],
             ),
-            # artefact icons — positions updated each frame in render().
+            # Surveyor map icons — positions updated each frame in render().
             AnimatedButton(
                 surface=self.screen,
-                next_state=OfficeState.ARTEFACT,
-                animation=Assets.animations.artefact_icon_1,
-                x=ARTEFACT_ORIGINS[0][0], y=ARTEFACT_ORIGINS[0][1],
+                next_state=OfficeState.SURVEYOR_1,
+                animation=_invisible_anim(120, 80),
+                x=_MAP_ORIGINS[0][0], y=_MAP_ORIGINS[0][1],
                 anchor="center",
                 width=120, height=80,
                 hover_transforms=[tint_hover((255, 255, 255))],
             ),
             AnimatedButton(
                 surface=self.screen,
-                next_state=OfficeState.ARTEFACT,
-                animation=Assets.animations.artefact_icon_2,
-                x=ARTEFACT_ORIGINS[1][0], y=ARTEFACT_ORIGINS[1][1],
+                next_state=OfficeState.SURVEYOR_2,
+                animation=_invisible_anim(100, 90),
+                x=_MAP_ORIGINS[1][0], y=_MAP_ORIGINS[1][1],
                 anchor="center",
                 width=100, height=90,
                 hover_transforms=[tint_hover((255, 255, 255))],
             ),
             AnimatedButton(
                 surface=self.screen,
-                next_state=OfficeState.ARTEFACT,
-                animation=Assets.animations.artefact_icon_3,
-                x=ARTEFACT_ORIGINS[2][0], y=ARTEFACT_ORIGINS[2][1],
-                anchor="center",
-                width=200, height=60,
-                hover_transforms=[tint_hover((255, 255, 255))],
-            ),
-            AnimatedButton(
-                surface=self.screen,
-                next_state=OfficeState.ARTEFACT,
-                animation=Assets.animations.artefact_icon_4,
-                x=ARTEFACT_ORIGINS[2][0], y=ARTEFACT_ORIGINS[2][1],
+                next_state=OfficeState.SURVEYOR_3,
+                animation=_invisible_anim(200, 60),
+                x=_MAP_ORIGINS[2][0], y=_MAP_ORIGINS[2][1],
                 anchor="center",
                 width=200, height=60,
                 hover_transforms=[tint_hover((255, 255, 255))],
             ),
         ]
 
-        self.artefact_buttons = self.buttons[2:]
+        self._map_buttons = self.buttons[2:]
+
+        # Desk hit area — only drawn and clickable when a map is selected.
+        self._desk_button = AnimatedButton(
+            surface=self.screen,
+            next_state=OfficeState.DESK,
+            animation=_invisible_anim(400, 100),
+            x=SCREEN_WIDTH - BORDER, 
+            y=SCREEN_HEIGHT,
+            anchor="bottomright",
+            width=425, height=75,
+            hover_transforms=[tint_hover((255, 255, 255))],
+        )
 
     def update(self):
         if self.state == OfficeState.MENU:
             self.state = OfficeState.IDLE
             return "menu"
-        elif self.state == OfficeState.BOOK_FLIP:
-            anim = Assets.animations.book_flip_animation
-            if anim.current_frame_index >= len(anim.frames) - 1:
-                anim.current_frame_index = 0
-                anim.ticks_elapsed = 0
-                self.state = OfficeState.IDLE
-                return "scribe"
-        elif self.state == OfficeState.SCRIBE:
+        elif self.state == OfficeState.WORLD_MAP:
             self.state = OfficeState.IDLE
-            return "scribe"
-        elif self.state == OfficeState.ARTEFACT:
+            return "world_map"
+        elif self.state == OfficeState.DESK:
             self.state = OfficeState.IDLE
-            return "artefact" if game_data.has_unlocked_artefact() else None
+            if game_data.current_map is not None:
+                if not game_data.flags.check("map_crumpled"):
+                    return "map_crumpling"
+                return "desk"
+        elif self.state == OfficeState.SURVEYOR_1:
+            game_data.current_map = None if game_data.current_map == 1 else 1
+            self.state = OfficeState.IDLE
+        elif self.state == OfficeState.SURVEYOR_2:
+            game_data.current_map = None if game_data.current_map == 2 else 2
+            self.state = OfficeState.IDLE
+        elif self.state == OfficeState.SURVEYOR_3:
+            game_data.current_map = None if game_data.current_map == 3 else 3
+            self.state = OfficeState.IDLE
         elif self.state == OfficeState.QUIT:
             self.state = OfficeState.IDLE
             return "quit"
@@ -126,25 +133,21 @@ class OfficeScene(Scene):
 
     def render(self):
         self.screen.blit(self.office_background, (0, 0))
-        for i, btn in enumerate(self.artefact_buttons):
-            cx, cy = ARTEFACT_TABLE_CENTER[0] + ARTEFACT_ORIGINS[i][0], ARTEFACT_TABLE_CENTER[1] + ARTEFACT_ORIGINS[i][1]
-            btn.base_rect.center = cx, cy
+        for i, btn in enumerate(self._map_buttons):
+            btn.base_rect.center = _MAP_DESK_CENTER if game_data.current_map == (i + 1) else _MAP_ORIGINS[i]
         for button in self.buttons:
             button.draw()
-        draw_label(self, SCREEN_WIDTH // 2, BORDER * 2,
-                   "Trust Points: " + str(game_data.total_trust_points),
-                   Assets.animations.coin_animation)
-
-        if self.state == OfficeState.BOOK_FLIP:
-            anim = Assets.animations.book_flip_animation
-            anim.update()
-            img = anim.current_frame.image
-            cx = SCREEN_WIDTH // 2 - img.get_width() // 2
-            cy = SCREEN_HEIGHT // 2 - img.get_height() // 2
-            self.screen.blit(img, (cx, cy))
-        else:
-            for _ in self.handle_events(list(self.buttons)):
-                pass
+        clickable = list(self.buttons)
+        if game_data.current_map is not None:
+            self._desk_button.draw()
+            label = FONT.render("compare", True, (220, 200, 140))
+            self.screen.blit(label, (
+                SCREEN_WIDTH - BORDER - 200, 
+                SCREEN_HEIGHT - 100,
+            ))
+            clickable.append(self._desk_button)
+        for _ in self.handle_events(clickable):
+            pass
 
     def handle_events(self, buttons):
         for event in pygame.event.get():

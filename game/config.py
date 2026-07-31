@@ -3,8 +3,7 @@ import os
 import pygame
 
 
-BASE_TILE_SIZE = 10
-PIECE_CELL_SIZE = 10   # pixels-per-cell in piece source images (1000% = 10x scaled)
+BASE_TILE_SIZE = 16
 SCALE_FACTOR = 1
 PIXEL_RES = int(BASE_TILE_SIZE * SCALE_FACTOR)
 SCREEN_WIDTH = 800
@@ -29,6 +28,5 @@ SPRITES_DIR = os.path.join(ASSETS_DIR, "sprites/")
 SOUNDS_DIR = os.path.join(ASSETS_DIR, "sounds/")
 DIALOGUE_DIR = os.path.join(ASSETS_DIR, "dialogue/")
 UI_PATH = os.path.join(ASSETS_DIR, "ui/")
-LEVELS_PATH = os.path.join(ASSETS_DIR, "levels/")
 
 FONT = pygame.font.Font(os.path.join(UI_PATH, "pixelfont.ttf"), 20)
