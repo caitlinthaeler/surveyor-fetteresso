@@ -2,7 +2,6 @@ import pygame
 import os
 from config import FONT, SCREEN_WIDTH, SOUNDS_DIR, UI_PATH, FONT, BORDER, SCALE_FACTOR
 from assets_registry import Animation, Frame
-from game.assets.scenes.weather_book import _FONT_CACHE, _wrap_text
 
 
 class Button:
@@ -21,7 +20,7 @@ class Button:
         self.text_colour = text_colour
         self.sound = sound
         self.enabled = enabled
-        self.base_image = pygame.image.load(os.path.join(UI_PATH, "button.png")).convert_alpha()
+        self.base_image = pygame.image.load(os.path.join(UI_PATH, "button2.png")).convert_alpha()
         self.background = pygame.transform.scale(self.base_image, self.rect.size)
 
     def draw(self):
@@ -146,7 +145,6 @@ class ImageComponent:
         surface.blit(img, (origin[0] + self.position[0], origin[1] + self.position[1]))
 
 class TextComponent:
-
     font_sizes = {
         'small': pygame.font.Font(os.path.join(UI_PATH, "pixelfont.ttf"), 16),
         'medium': pygame.font.Font(os.path.join(UI_PATH, "pixelfont.ttf"), 20),
@@ -158,7 +156,7 @@ class TextComponent:
         'red': (220, 60, 60),
     }
 
-    def __init__(self, 
+    def __init__(self,
                  text: str, 
                  position: tuple[int, int], 
                  anchor: str = 'topleft',
@@ -203,17 +201,10 @@ class TextComponent:
 
 
     def render(self, surface: pygame.Surface, origin: tuple[int, int] = (0, 0)):
-        """Render this text onto surface at origin + position (page-relative coords).
-
-        Each line is anchored to `position` by `self.anchor` (any pygame Rect
-        anchor name — caller is trusted to pass a valid one, like AnimatedButton).
-        `width` word-wraps the text; `height` is not enforced, so text past it
-        simply overflows the page.
-        """
         if not self.visible or not self.text:
             return
-        font = TextComponent.font_sizes.get(self.font_size)
-        colour = TextComponent.text_colors.get(self.color)
+        font = TextComponent.font_sizes.get(self.font_size, TextComponent.font_sizes['medium'])
+        colour = TextComponent.text_colors.get(self.color, TextComponent.text_colors['dark'])
 
         x = origin[0] + self.position[0]
         y = origin[1] + self.position[1]
@@ -225,7 +216,7 @@ class TextComponent:
             y += font.get_height()
 
 class Page:
-    def __init__(self, base_image: pygame.Surface = None, width: int = 350, height: int = 448, components: list[TextComponent] = None):
+    def __init__(self, base_image: pygame.Surface = None, width: int = 180, height: int = 180, components: list[TextComponent] = None):
         self.base_image = base_image
         self.width = width
         self.height = height

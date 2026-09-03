@@ -16,6 +16,7 @@ from assets.scenes.desk import DeskScene
 from assets.scenes.surveyor import SurveyorOneScene, SurveyorTwoScene, SurveyorThreeScene
 from assets.scenes.map_crumpling import MapCrumplingScene
 from assets.scenes.introduction import IntroductionScene
+from assets.scenes.weather_book import WeatherBookScene
 from game_manager import NewGame
 
 clock = pygame.time.Clock()
@@ -32,8 +33,9 @@ scene_manager.scenes["surveyor_two"] = SurveyorTwoScene(screen, clock, game)
 scene_manager.scenes["surveyor_three"] = SurveyorThreeScene(screen, clock, game)
 scene_manager.scenes["map_crumpling"] = MapCrumplingScene(screen, clock, game)
 scene_manager.scenes["introduction"] = IntroductionScene(screen, clock, game)
+scene_manager.scenes["weather_book"] = WeatherBookScene(screen, clock, game)
 
-scene_manager.switch_scene("office")
+scene_manager.switch_scene("menu")
 
 while game.is_running():
     next_scene = scene_manager.current_scene.update()

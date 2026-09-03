@@ -150,7 +150,7 @@ class Animations:
         ], ticks_per_frame=30)
     
     menu_icon = Animation([
-        Frame(path="items/button.png", size=(100, 50))
+        Frame(path="items/button2.png", size=(100, 50))
         ], ticks_per_frame=30)
     
     office_icon = Animation([
@@ -210,6 +210,7 @@ class Animations:
     map_3 = Animation([Frame(path="items/surveyor_3_map.png")])
 
     weather_book = Animation([Frame(path="items/book_fetteresso.png")], ticks_per_frame=30)
+    weather_book_open = Animation([Frame(path="items/book_fetteresso_open.png")], ticks_per_frame=30)
 
 class Sound:
     birds_chirping = SoundEffect(path="birds_chirping.mp3")
