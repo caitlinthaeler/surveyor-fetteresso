@@ -1,0 +1,22 @@
+{
+  "id": "confrontation_demand",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "Ok, ok. I'll tell you."
+    },
+    {
+      "speaker": "Surveyor Bob",
+      "text": "The old master wanted me to... exaggerate the size of Fetteresso Castle. It was very important to him, you see?"
+    },
+    {
+      "speaker": "Surveyor Bob",
+      "text": "He also made it worth my while... if you catch my drift."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

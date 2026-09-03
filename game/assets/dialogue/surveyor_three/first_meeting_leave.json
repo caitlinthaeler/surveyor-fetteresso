@@ -1,0 +1,14 @@
+{
+  "id": "first_meeting_leave",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Goodbye."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

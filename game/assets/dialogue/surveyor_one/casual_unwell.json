@@ -1,0 +1,14 @@
+{
+  "id": "casual_unwell",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "Oh… my condolences."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

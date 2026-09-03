@@ -1,0 +1,18 @@
+{
+  "id": "casual_talents_no",
+  "lines": [
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Oh! Well! I've been doing it for years. I've done lots of walking, and… surveying."
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "I'm very busy at the moment. How about you visit another time?"
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

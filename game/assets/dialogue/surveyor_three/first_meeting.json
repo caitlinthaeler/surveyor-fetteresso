@@ -1,13 +1,29 @@
 {
   "id": "first_meeting",
   "lines": [
-    {"speaker": "Surveyor Michael", "text": "Hello there, I'm Michael."},
-    {"speaker": "Surveyor Michael", "text": "I'm relatively new to surveying, but I have a lot of enthusiasm and I'm a quick learner."},
-    {"speaker": "Surveyor Michael", "text": "I know the Fetteresso Estate is a bit of a mess, but I think I could be a great help to you in sorting it out."}
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Hello there, I'm Michael."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I'm relatively new to surveying, but I have a lot of enthusiasm, and I'm a quick learner!"
+    }
   ],
   "next": {
-    "type": "exit",
-    "to": "world_map",
-    "flags_raise": ["surveyor_three_met"]
+    "type": "choices",
+    "flags_raise": [
+      "surveyor_three_met"
+    ],
+    "options": [
+      {
+        "text": "That's great to hear! Accurately surveying the area will be no small undertaking.",
+        "file": "first_meeting_encourage"
+      },
+      {
+        "text": "I'll be back later.",
+        "file": "first_meeting_leave"
+      }
+    ]
   }
 }

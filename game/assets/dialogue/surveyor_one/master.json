@@ -2,14 +2,20 @@
   "default": "first_meeting",
   "entries": [
     {
-      "requires_all": ["bob_anomaly_found"],
-      "requires_none": [],
-      "file": "initial_investigation"
+      "requires_all": [
+        "bob_anomaly_found"
+      ],
+      "requires_none": [
+        "bob_confronted"
+      ],
+      "file": "confrontation"
     },
     {
-      "requires_all": ["surveyor_one_met"],
+      "requires_all": [
+        "surveyor_one_met"
+      ],
       "requires_none": [],
-      "file": "greeting"
+      "file": "casual_meeting"
     }
   ]
 }

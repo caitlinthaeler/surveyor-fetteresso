@@ -1,0 +1,33 @@
+{
+  "id": "confrontation",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "Hello there. How can I help you?"
+    },
+    {
+      "speaker": "You",
+      "text": "You seem to have misrepresented the size of Fetteresso Castle."
+    },
+    {
+      "speaker": "Surveyor Bob",
+      "text": "The castle? I'm not sure what you mean."
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [
+      "bob_confronted"
+    ],
+    "options": [
+      {
+        "text": "Explain yourself!",
+        "file": "confrontation_demand"
+      },
+      {
+        "text": "It's ok we all make mistakes.",
+        "file": "confrontation_forgive"
+      }
+    ]
+  }
+}

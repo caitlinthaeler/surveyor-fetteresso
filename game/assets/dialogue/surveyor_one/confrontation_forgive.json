@@ -1,0 +1,20 @@
+{
+  "id": "confrontation_forgive",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "Thanks for being understanding."
+    },
+    {
+      "speaker": "Surveyor Bob",
+      "text": "I heard that Michael got lost on his last survey."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [
+      "michael_got_lost"
+    ],
+    "to": "world_map"
+  }
+}

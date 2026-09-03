@@ -1,0 +1,14 @@
+{
+  "id": "casual_tea_about_yes",
+  "lines": [
+    {
+      "speaker": "You",
+      "text": "That sounds lovely."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

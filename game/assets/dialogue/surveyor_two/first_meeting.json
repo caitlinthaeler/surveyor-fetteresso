@@ -1,11 +1,37 @@
 {
   "id": "first_meeting",
   "lines": [
-    {"speaker": "Surveyor Dave", "text": "Hello there, I'm Dave."}
+    {
+      "speaker": "Surveyor Dave",
+      "text": "…"
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Oh! I didn't see you there. Who are you?"
+    },
+    {
+      "speaker": "You",
+      "text": "Hello… I'm the newly appointed surveyor for Fetteresso Estate. Were you not expecting me? I'm here to select an assistant."
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Oh! Of course, of course… What do you need?"
+    }
   ],
   "next": {
-    "type": "exit",
-    "to": "world_map",
-    "flags_raise": ["surveyor_two_met"]
+    "type": "choices",
+    "flags_raise": [
+      "surveyor_two_met"
+    ],
+    "options": [
+      {
+        "text": "I'm here to find out more about you!",
+        "file": "first_meeting_about"
+      },
+      {
+        "text": "Ok! Thank you.",
+        "file": "first_meeting_leave"
+      }
+    ]
   }
 }

@@ -1,7 +1,11 @@
 {
   "id": "end_dave",
   "lines": [
-    {"speaker": "Surveyor Dave", "text": "Finally. I was starting to wonder if you'd ever decide."}
+    {"speaker": "Surveyor Dave", "text": "Finally. I was starting to wonder if you'd ever decide."},
+    {"speaker": "", "text": "You selected Dave to be your surveying assistant."},
+    {"speaker": "", "text": "You finished behind schedule."},
+    {"speaker": "", "text": "The new master of Fetteresso Estate was displeased by your work and cut your pay in half."},
+    {"speaker": "", "text": "The quality of the map itself was poor, and another team of surveyors had to draft another map soon after your work was received."}
   ],
   "next": {
     "type": "exit",

@@ -1,0 +1,22 @@
+{
+  "id": "first_meeting_encourage",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I know the Fetteresso Estate is a bit of a mess, but I think I could be a great help to you in sorting it out."
+    },
+    {
+      "speaker": "You",
+      "text": "It was nice to meet you, Michael. I'll see you again soon."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Cheerio!"
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

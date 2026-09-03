@@ -1,0 +1,14 @@
+{
+  "id": "casual_tea_about_no",
+  "lines": [
+    {
+      "speaker": "You",
+      "text": "I'd rather remain focused on my work."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

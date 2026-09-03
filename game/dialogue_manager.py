@@ -14,6 +14,8 @@ Dialogue files (JSON):
       // type == "choices":
       "options": [
         {"text": "Player option text", "file": "next_file_id"},
+        // an option can be gated on flags; hidden unless it passes:
+        {"text": "...", "file": "...", "requires_all": ["flag_a"], "requires_none": ["flag_b"]},
         ...
       ],
 
@@ -152,9 +154,15 @@ class DialogueManager:
         elif nxt_type == "file":
             self._push(nxt["file"])
         elif nxt_type == "choices":
-            chosen = self._show_choices(nxt["options"])
-            if chosen:
-                self._push(chosen)
+            options = [
+                o for o in nxt["options"]
+                if self._game.flags.check_all(o.get("requires_all", []))
+                and self._game.flags.check_none(o.get("requires_none", []))
+            ]
+            if options:
+                chosen = self._show_choices(options)
+                if chosen:
+                    self._push(chosen)
         return None
 
     # --------------------------------------------------------- blocking renders

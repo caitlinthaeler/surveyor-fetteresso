@@ -1,0 +1,18 @@
+{
+  "id": "confrontation_understand",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I appreciate your understanding."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "If there's anything else you need, don't hesitate to drop by again."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

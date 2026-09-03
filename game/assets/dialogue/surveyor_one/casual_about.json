@@ -1,0 +1,18 @@
+{
+  "id": "casual_about",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "I enjoy a glass of whiskey in the evening."
+    },
+    {
+      "speaker": "Surveyor Bob",
+      "text": "The old master and I knew each other for a long time."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

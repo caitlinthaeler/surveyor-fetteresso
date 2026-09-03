@@ -1,0 +1,14 @@
+{
+  "id": "first_meeting_leave",
+  "lines": [
+    {
+      "speaker": "You",
+      "text": "Ok! Thank you."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

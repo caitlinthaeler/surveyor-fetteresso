@@ -1,0 +1,30 @@
+{
+  "id": "casual_meeting",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Hello again, care for a spot of tea?"
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {
+        "text": "Just dropping by.",
+        "file": "casual_leave"
+      },
+      {
+        "text": "That sounds lovely.",
+        "file": "casual_tea"
+      },
+      {
+        "text": "I heard that you got a bit turned around during your survey?",
+        "file": "casual_lost",
+        "requires_all": [
+          "michael_got_lost"
+        ]
+      }
+    ]
+  }
+}

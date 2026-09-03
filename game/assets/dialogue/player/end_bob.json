@@ -1,7 +1,11 @@
 {
   "id": "end_bob",
   "lines": [
-    {"speaker": "Surveyor Bob", "text": "A wise choice. I'm sure this will be a lucrative partnership for both of us."}
+    {"speaker": "Surveyor Bob", "text": "A wise choice. I'm sure this will be a lucrative partnership for both of us."},
+    {"speaker": "", "text": "You selected Bob to be your surveying assistant."},
+    {"speaker": "", "text": "You finished way behind schedule."},
+    {"speaker": "", "text": "Despite this, you received a large sum of money from the new master of Fetteresso Estate."},
+    {"speaker": "", "text": "Unfortunately, future cartographers commonly discredit your work and hail it as a result of bribery and exaggeration."}
   ],
   "next": {
     "type": "exit",

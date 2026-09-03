@@ -1,7 +1,11 @@
 {
   "player_name": "Player",
-  "current_map": null,
+  "current_map": 2,
   "flags": {
-    "intro_seen": true
+    "intro_seen": true,
+    "map_crumpled": true,
+    "surveyor_one_met": true,
+    "surveyor_three_met": true,
+    "surveyor_two_met": true
   }
 }

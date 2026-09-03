@@ -1,0 +1,34 @@
+{
+  "id": "first_meeting_about",
+  "lines": [
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Well, I don't know what to say…"
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "I am a very good cartographer!"
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "…"
+    },
+    {
+      "speaker": "You",
+      "text": "Anything else?"
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "…"
+    },
+    {
+      "speaker": "You",
+      "text": "Ok! Thank you."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

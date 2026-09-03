@@ -1,0 +1,27 @@
+{
+  "id": "casual_meeting",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "You again. What do you need?"
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {
+        "text": "Just passing through!",
+        "file": "casual_passing"
+      },
+      {
+        "text": "How are you today?",
+        "file": "casual_how_are_you"
+      },
+      {
+        "text": "Tell me something about yourself.",
+        "file": "casual_about"
+      }
+    ]
+  }
+}

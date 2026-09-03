@@ -1,0 +1,23 @@
+{
+  "id": "casual_talents",
+  "lines": [
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Did I mention I was good at cartography?"
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {
+        "text": "…Yes.",
+        "file": "casual_talents_yes"
+      },
+      {
+        "text": "No, tell me all about it!",
+        "file": "casual_talents_no"
+      }
+    ]
+  }
+}

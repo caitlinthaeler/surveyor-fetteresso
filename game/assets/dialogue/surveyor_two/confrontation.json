@@ -1,0 +1,49 @@
+{
+  "id": "confrontation",
+  "lines": [
+    {
+      "speaker": "Surveyor Dave",
+      "text": "…"
+    },
+    {
+      "speaker": "You",
+      "text": "Hello?"
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Ah! Hello again."
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Why are you here?"
+    },
+    {
+      "speaker": "You",
+      "text": "I studied your map, and I noticed a bit of a discrepancy."
+    },
+    {
+      "speaker": "You",
+      "text": "The river looks… quite large."
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "I made a mistake with the river? I can't seem to remember…"
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "…"
+    },
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Oh! I remember now! I surveyed that area in the summer of 1797… it rained a lot that year!"
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [
+      "rained_1797",
+      "dave_confronted"
+    ],
+    "to": "world_map"
+  }
+}

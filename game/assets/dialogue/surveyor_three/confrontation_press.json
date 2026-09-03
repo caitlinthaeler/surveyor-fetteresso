@@ -1,0 +1,22 @@
+{
+  "id": "confrontation_press",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "That's true… it's also an impermanent feature."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I don't mean to be rude, of course, but surely it not existing yet is an understandable reason to have not recorded it?"
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Let me know if there's any other issues.."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

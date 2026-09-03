@@ -1,0 +1,23 @@
+{
+  "id": "casual_meeting",
+  "lines": [
+    {
+      "speaker": "Surveyor Dave",
+      "text": "…Hm?"
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {
+        "text": "I was wondering if you had thought of anything else you're good at?",
+        "file": "casual_talents"
+      },
+      {
+        "text": "Just passing through.",
+        "file": "casual_passing"
+      }
+    ]
+  }
+}

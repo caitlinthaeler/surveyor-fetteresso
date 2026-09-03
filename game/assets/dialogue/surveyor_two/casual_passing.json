@@ -1,0 +1,14 @@
+{
+  "id": "casual_passing",
+  "lines": [
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Oh… well, enjoy your day."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "casual_talents_yes",
+  "lines": [
+    {
+      "speaker": "Surveyor Dave",
+      "text": "Oh, well… I'll see you later."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

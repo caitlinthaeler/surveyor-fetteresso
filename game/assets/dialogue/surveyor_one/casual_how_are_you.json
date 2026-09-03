@@ -1,0 +1,23 @@
+{
+  "id": "casual_how_are_you",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "I'm just dandy, thank you! How are you?"
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {
+        "text": "I am well.",
+        "file": "casual_well"
+      },
+      {
+        "text": "I could be better.",
+        "file": "casual_unwell"
+      }
+    ]
+  }
+}

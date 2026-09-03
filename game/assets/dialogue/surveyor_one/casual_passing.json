@@ -1,0 +1,14 @@
+{
+  "id": "casual_passing",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "Oh, alright. Good day then."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

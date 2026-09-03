@@ -1,0 +1,34 @@
+{
+  "id": "casual_lost",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Who told you that? Bob?"
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I don't want to cast a bad light upon anyone, but you can't trust what he says."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "His surveys are entirely decided by bribes from stakeholders, he is only influenced by money."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I also quite certainly did not get lost during my survey."
+    },
+    {
+      "speaker": "You",
+      "text": "I see… thank you for helping me clear this up."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Of course. Don't hesitate to drop by again. I have lots of tea in reserve."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

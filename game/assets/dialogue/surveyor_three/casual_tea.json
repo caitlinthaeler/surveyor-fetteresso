@@ -1,0 +1,27 @@
+{
+  "id": "casual_tea",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Here you go. How can I help you?"
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {
+        "text": "How are you today?",
+        "file": "casual_tea_how"
+      },
+      {
+        "text": "I've got a bit of a back ache, but that's why I'm looking for an assistant.",
+        "file": "casual_tea_back"
+      },
+      {
+        "text": "Tell me about yourself.",
+        "file": "casual_tea_about"
+      }
+    ]
+  }
+}

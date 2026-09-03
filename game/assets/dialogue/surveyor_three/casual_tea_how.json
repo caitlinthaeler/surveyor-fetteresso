@@ -1,0 +1,18 @@
+{
+  "id": "casual_tea_how",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I'm doing swell, thank you. And you?"
+    },
+    {
+      "speaker": "You",
+      "text": "Dandy."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

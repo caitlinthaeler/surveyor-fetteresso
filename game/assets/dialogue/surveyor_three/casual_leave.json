@@ -1,0 +1,14 @@
+{
+  "id": "casual_leave",
+  "lines": [
+    {
+      "speaker": "You",
+      "text": "Just dropping by."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

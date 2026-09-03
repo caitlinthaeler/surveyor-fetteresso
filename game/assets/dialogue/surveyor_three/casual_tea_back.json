@@ -1,0 +1,14 @@
+{
+  "id": "casual_tea_back",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "That's unfortunate to hear. Hopefully some good tea can put you right!"
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "casual_tea_about",
+  "lines": [
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I'm a fiddle player, and I quite enjoy birdwatching."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Surveying is the perfect opportunity to spot all sorts of critters."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "If we end up working together, perhaps we could enjoy doing so in the field?"
+    }
+  ],
+  "next": {
+    "type": "choices",
+    "flags_raise": [],
+    "options": [
+      {
+        "text": "That sounds lovely.",
+        "file": "casual_tea_about_yes"
+      },
+      {
+        "text": "I'd rather remain focused on my work.",
+        "file": "casual_tea_about_no"
+      }
+    ]
+  }
+}

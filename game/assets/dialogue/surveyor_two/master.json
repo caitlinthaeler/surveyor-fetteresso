@@ -2,9 +2,20 @@
   "default": "first_meeting",
   "entries": [
     {
-      "requires_all": ["dave_anomaly_found"],
+      "requires_all": [
+        "dave_anomaly_found"
+      ],
+      "requires_none": [
+        "dave_confronted"
+      ],
+      "file": "confrontation"
+    },
+    {
+      "requires_all": [
+        "surveyor_two_met"
+      ],
       "requires_none": [],
-      "file": "initial_investigation"
+      "file": "casual_meeting"
     }
   ]
 }

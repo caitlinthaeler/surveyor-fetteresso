@@ -1,0 +1,14 @@
+{
+  "id": "casual_well",
+  "lines": [
+    {
+      "speaker": "Surveyor Bob",
+      "text": "Great! See you around."
+    }
+  ],
+  "next": {
+    "type": "exit",
+    "flags_raise": [],
+    "to": "world_map"
+  }
+}
