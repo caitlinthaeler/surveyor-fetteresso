@@ -89,18 +89,22 @@ class DialogueManager:
 
     # ------------------------------------------------------------------ public
 
-    def run(self, surveyor_dir: str, game) -> str:
+    def run(self, surveyor_dir: str, game, start: str = None) -> str:
         """
-        Consult master.json, run all queued dialogue files in order.
-        Blocks until the conversation ends.
-        Returns the name of the scene to transition to (default "world_map").
+        Run all queued dialogue files in order, blocking until the
+        conversation ends. Returns the name of the scene to transition to
+        (default "world_map").
+
+        start : dialogue file id to begin with. When None, master.json is
+                consulted to pick the entry point.
         """
         self._game = game
         self._surveyor_dir = surveyor_dir
         self._queue.clear()
 
-        master_path = os.path.join(DIALOGUE_DIR, surveyor_dir, "master.json")
-        start = self._resolve_master(master_path)
+        if start is None:
+            master_path = os.path.join(DIALOGUE_DIR, surveyor_dir, "master.json")
+            start = self._resolve_master(master_path)
         if not start:
             return "world_map"
 

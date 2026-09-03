@@ -145,6 +145,7 @@ class BackgroundMusic:
 player_fps = 10
 player_run_fps = 5
 class Animations:
+    default_button = Animation([Frame(path="items/button2.png", size=(100, 50))], ticks_per_frame=30)
     world_map_icon= Animation([
         Frame(path="items/map_icon_fetteresso.png", size=(100, 100))
         ], ticks_per_frame=30)

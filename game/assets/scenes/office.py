@@ -1,3 +1,5 @@
+import enum
+
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, BORDER, FONT
 from scene_manager import Scene
 from assets_registry import Assets, Animation, Frame
@@ -39,6 +41,12 @@ _MAP_SIZES = [
 # How fast a map slides between wall and desk (0..1 per frame lerp factor).
 _SLIDE_SPEED = 0.18
 
+# All three must be raised before the final decision can be made.
+_ANOMALY_FLAGS = ("bob_anomaly_found", "dave_anomaly_found", "michael_anomaly_found")
+_GATE_MESSAGE = [
+    "You must investigate all three candidates",
+    "before making your final decision.",
+]
 
 class OfficeState(Enum):
     MENU       = 0
@@ -50,6 +58,8 @@ class OfficeState(Enum):
     SURVEYOR_2 = 6
     SURVEYOR_3 = 7
     WEATHER_BOOK = 8
+    END_SEQUENCE = 9
+    DISMISS_POPUP = 10
 
 
 class OfficeScene(Scene):
@@ -120,6 +130,34 @@ class OfficeScene(Scene):
             hover_transforms=[tint_hover((105, 205, 205)), scale_hover(1.1)],
         )
 
+       
+
+        # Final-decision button — kept out of self.buttons so the map-slide
+        # logic (self.buttons[2:]) doesn't grab it.
+        self.final_decision_button = AnimatedButton(
+            surface=self.screen,
+            next_state=OfficeState.END_SEQUENCE,
+            animation=Assets.animations.default_button,
+            x= 0, y=SCREEN_HEIGHT - BORDER,
+            anchor="bottomleft",
+            width=240, height=44,
+            text="Make Final Decision",
+            hover_transforms=[tint_hover((87, 0, 72)), scale_hover(1.05)],
+        )
+
+        # "Investigate everyone first" gate popup.
+        self._show_gate_popup = False
+        self.popup_ok_button = AnimatedButton(
+            surface=self.screen,
+            next_state=OfficeState.DISMISS_POPUP,
+            animation=Assets.animations.default_button,
+            x=SCREEN_WIDTH // 2, y=SCREEN_HEIGHT // 2 + 50,
+            anchor="center",
+            width=120, height=44,
+            text="OK",
+            hover_transforms=[tint_hover((5, 5, 5)), scale_hover(1.05)],
+        )
+
         self._map_buttons = self.buttons[2:]
 
         # Desk hit area — only drawn and clickable when a map is selected.
@@ -152,6 +190,14 @@ class OfficeScene(Scene):
         elif self.state == OfficeState.WEATHER_BOOK:
             self.state = OfficeState.IDLE
             return "weather_book"
+        elif self.state == OfficeState.END_SEQUENCE:
+            self.state = OfficeState.IDLE
+            if game_data.flags.check_all(_ANOMALY_FLAGS):
+                return "end_sequence"
+            self._show_gate_popup = True
+        elif self.state == OfficeState.DISMISS_POPUP:
+            self.state = OfficeState.IDLE
+            self._show_gate_popup = False
         elif self.state == OfficeState.SURVEYOR_1:
             game_data.current_map = None if game_data.current_map == 1 else 1
             self.state = OfficeState.IDLE
@@ -180,21 +226,38 @@ class OfficeScene(Scene):
             ow, oh = _MAP_SIZES[i]
             btn.base_rect.size = (round(ow + (desk_w - ow) * t), round(oh + (desk_h - oh) * t))
             btn.base_rect.center = (round(ox + (desk_cx - ox) * t), round(oy + (desk_cy - oy) * t))
-
         for button in self.buttons:
             button.draw()
 
+        self.final_decision_button.draw()
+        clickable = self.buttons + [self.final_decision_button]
+
         if game_data.flags.check("rained_1797"):
             self.record_book.draw()
-            clickable = self.buttons + [self.record_book]
-        else:
-            clickable = list(self.buttons)
+            clickable.append(self.record_book)
         if game_data.current_map is not None:
             self._desk_button.draw()  # drawn last -> sits on top of the slid map
             # desk button first in the list so it wins clicks in the overlap zone
             clickable.insert(0, self._desk_button)
+
+        # Gate popup swallows all other input until dismissed.
+        if self._show_gate_popup:
+            self._draw_gate_popup()
+            clickable = [self.popup_ok_button]
+
         for _ in self.handle_events(clickable):
             pass
+
+    def _draw_gate_popup(self):
+        overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 185))
+        self.screen.blit(overlay, (0, 0))
+        y = SCREEN_HEIGHT // 2 - 40
+        for line in _GATE_MESSAGE:
+            label = FONT.render(line, True, (240, 235, 220))
+            self.screen.blit(label, label.get_rect(center=(SCREEN_WIDTH // 2, y)))
+            y += 28
+        self.popup_ok_button.draw()
 
     def handle_events(self, buttons):
         for event in pygame.event.get():
@@ -207,3 +270,5 @@ class OfficeScene(Scene):
                 yield clicked_button
                 continue
             yield event
+
+    
