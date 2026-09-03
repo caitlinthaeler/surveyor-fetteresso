@@ -9,6 +9,7 @@ except Exception:
 from config import SCREEN_WIDTH, SCREEN_HEIGHT
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 from scene_manager import Fade, SceneManager
+from vhs_effect import VHSEffect
 from assets.scenes.menu import MenuScene
 from assets.scenes.office import OfficeScene
 from assets.scenes.world_map import WorldMapScene
@@ -20,11 +21,17 @@ from assets.scenes.weather_book import WeatherBookScene
 from game_manager import NewGame
 
 clock = pygame.time.Clock()
-fade = Fade(screen, clock)
+vhs = VHSEffect(screen.get_size(), intensity=0.8)
+
+def _present():
+    vhs.apply(screen)
+    pygame.display.flip()
+
+fade = Fade(screen, clock, present=_present)
 
 game = NewGame()
 scene_manager = SceneManager()
-scene_manager.scenes["menu"] = MenuScene(screen, clock, game)
+scene_manager.scenes["menu"] = MenuScene(screen, clock, game, vhs=vhs)
 scene_manager.scenes["office"] = OfficeScene(screen, clock)
 scene_manager.scenes["world_map"] = WorldMapScene(screen, clock)
 scene_manager.scenes["desk"] = DeskScene(screen, clock, game)
@@ -45,5 +52,6 @@ while game.is_running():
         scene_manager.switch_scene(next_scene, fade=fade)
     else:
         scene_manager.current_scene.render()
+        vhs.apply(screen)
     pygame.display.flip()
     clock.tick(60)
