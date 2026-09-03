@@ -9,11 +9,11 @@ class SurveyorScene(Scene):
     surveyor_dir: str = ""
     background_file: str = ""   # set per subclass; loaded in __init__ once screen exists
 
-    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock, game):
+    def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock, game, vhs=None):
         super().__init__(screen, clock)
         self.game = game
         self.ambience = Assets.sounds.thumping_rain
-        self._dialogue = DialogueManager(screen, clock)
+        self._dialogue = DialogueManager(screen, clock, vhs)
         self.background = format_background(screen, self.background_file) if self.background_file else None
 
     def update(self) -> str | None:

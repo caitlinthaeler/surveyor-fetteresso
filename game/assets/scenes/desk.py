@@ -142,6 +142,7 @@ class DeskScene(Scene):
 
     def render(self):
         self.screen.blit(self.desk_background, (0, 0))
+        self.draw_title()
         self._draw_maps()
         self._draw_buttons()
         self._draw_map_cursor()
@@ -154,6 +155,10 @@ class DeskScene(Scene):
         w = int(surf.get_width() * _MAP_SCALE)
         h = int(surf.get_height() * _MAP_SCALE)
         return pygame.transform.scale(surf, (w, h))
+
+    def draw_title(self):
+        title = FONT.render("Compare Maps", True, _COL_LABEL)
+        self.screen.blit(title, title.get_rect(midtop=(SCREEN_WIDTH // 2, 20)))
 
     def _draw_maps(self):
         # Left — player's map
