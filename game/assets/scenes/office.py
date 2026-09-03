@@ -30,6 +30,7 @@ class OfficeState(Enum):
     SURVEYOR_1 = 5
     SURVEYOR_2 = 6
     SURVEYOR_3 = 7
+    WEATHER_BOOK = 8
 
 
 class OfficeScene(Scene):
@@ -88,9 +89,19 @@ class OfficeScene(Scene):
                 width=200, height=60,
                 hover_transforms=[tint_hover((255, 255, 255))],
             ),
+
+            AnimatedButton(
+                surface=self.screen,
+                next_state=OfficeState.WEATHER_BOOK,
+                animation=Assets.animations.weather_book,
+                x=50, y=SCREEN_HEIGHT - 15,
+                anchor="bottomleft",
+                width=19*3, height=26*3,
+                hover_transforms=[tint_hover((105, 205, 205)), scale_hover(1.1)],
+            ),
         ]
 
-        self._map_buttons = self.buttons[2:]
+        self._map_buttons = self.buttons[2:5]
 
         # Desk hit area — only drawn and clickable when a map is selected.
         self._desk_button = AnimatedButton(
@@ -117,6 +128,9 @@ class OfficeScene(Scene):
                 if not game_data.flags.check("map_crumpled"):
                     return "map_crumpling"
                 return "desk"
+        elif self.state == OfficeState.WEATHER_BOOK:
+            self.state = OfficeState.IDLE
+            return "weather_book"
         elif self.state == OfficeState.SURVEYOR_1:
             game_data.current_map = None if game_data.current_map == 1 else 1
             self.state = OfficeState.IDLE

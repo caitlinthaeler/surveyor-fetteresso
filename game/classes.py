@@ -1,7 +1,8 @@
 import pygame
 import os
 from config import FONT, SCREEN_WIDTH, SOUNDS_DIR, UI_PATH, FONT, BORDER, SCALE_FACTOR
-from assets_registry import Animation
+from assets_registry import Animation, Frame
+from game.assets.scenes.weather_book import _FONT_CACHE, _wrap_text
 
 
 class Button:
@@ -127,6 +128,125 @@ class AnimatedButton:
     def play_sound(self):
         self.sound.play()
 
+class ImageComponent:
+    """A single image to be drawn on a page at a given position."""
+    def __init__(self, image: Frame, position: tuple[int, int], visible: bool = True):
+        self.image = image
+        self.position = position
+        self.visible = visible
+
+    def setVisible(self, visible: bool):
+        self.visible = visible
+
+    def render(self, surface: pygame.Surface, origin: tuple[int, int] = (0, 0)):
+        """Blit this image onto surface at origin + position (page-relative coords)."""
+        if not self.visible:
+            return
+        img = self.image.image if isinstance(self.image, Frame) else self.image
+        surface.blit(img, (origin[0] + self.position[0], origin[1] + self.position[1]))
+
+class TextComponent:
+
+    font_sizes = {
+        'small': pygame.font.Font(os.path.join(UI_PATH, "pixelfont.ttf"), 16),
+        'medium': pygame.font.Font(os.path.join(UI_PATH, "pixelfont.ttf"), 20),
+        'large': pygame.font.Font(os.path.join(UI_PATH, "pixelfont.ttf"), 24),
+    }
+    text_colors = {
+        'dark': (20, 20, 20),
+        'light': (0, 87, 72),
+        'red': (220, 60, 60),
+    }
+
+    def __init__(self, 
+                 text: str, 
+                 position: tuple[int, int], 
+                 anchor: str = 'topleft',
+                width: int = None, height: int = None,
+                font_size: str = 'medium', 
+                color: str = 'dark', 
+                visible: bool = True):
+        self.text = text
+        self.position = position
+        self.width = width
+        self.height = height
+        self.anchor = anchor
+        self.font_size = font_size
+        self.color = color
+        self.visible = visible
+
+    def setVisible(self, visible: bool):
+        self.visible = visible
+
+    def _lines(self, font) -> list[str]:
+        if self.width:
+            lines = []
+            for paragraph in self.text.split("\n"):
+                lines.extend(self._wrap_text(paragraph, font, self.width))
+            return lines
+        return self.text.split("\n")
+
+    def _wrap_text(self, text: str, font, max_width: int) -> list[str]:
+        words = text.split(" ")
+        lines = []
+        current = ""
+        for word in words:
+            candidate = f"{current} {word}".strip()
+            if not current or font.size(candidate)[0] <= max_width:
+                current = candidate
+            else:
+                lines.append(current)
+                current = word
+        if current:
+            lines.append(current)
+        return lines or [""]
+
+
+    def render(self, surface: pygame.Surface, origin: tuple[int, int] = (0, 0)):
+        """Render this text onto surface at origin + position (page-relative coords).
+
+        Each line is anchored to `position` by `self.anchor` (any pygame Rect
+        anchor name — caller is trusted to pass a valid one, like AnimatedButton).
+        `width` word-wraps the text; `height` is not enforced, so text past it
+        simply overflows the page.
+        """
+        if not self.visible or not self.text:
+            return
+        font = TextComponent.font_sizes.get(self.font_size)
+        colour = TextComponent.text_colors.get(self.color)
+
+        x = origin[0] + self.position[0]
+        y = origin[1] + self.position[1]
+        for line in self._lines(font):
+            label = font.render(line, True, colour)
+            rect = label.get_rect()
+            setattr(rect, self.anchor, (x, y))
+            surface.blit(label, rect)
+            y += font.get_height()
+
+class Page:
+    def __init__(self, base_image: pygame.Surface = None, width: int = 350, height: int = 448, components: list[TextComponent] = None):
+        self.base_image = base_image
+        self.width = width
+        self.height = height
+        self.components = components if components is not None else [] # can be image or text
+
+    # def set_image(self, piece_image: Frame, position: tuple[int, int], visible: bool = True):
+    #     self.components.append(ImageComponent(piece_image, position, visible))
+
+    def set_text(self, text: str, position: tuple[int, int], text_align: str = 'topleft',
+                 width: int = None, height: int = None,
+                 font_size: str = 'medium', color: str = 'dark', visible: bool = True):
+        self.components.append(TextComponent(text, position, text_align, width, height, font_size, color, visible))
+
+    def render(self, surface: pygame.Surface, origin: tuple[int, int] = (0, 0)):
+        if self.base_image:
+            surface.blit(self.base_image, origin)
+        for component in self.components:
+            if component.visible:
+                component.render(surface, origin)
+
+
 
 def scale_hover(factor: float):
     return lambda surf: pygame.transform.scale(
@@ -160,3 +280,21 @@ def format_background(screen: pygame.Surface, file_name: str):
     background = pygame.image.load(background_path).convert()
     background = pygame.transform.scale(background, screen.get_size())
     return background
+
+
+class Image:
+    def __init__(self, screen: pygame.Surface, file_name: str, scale: float = 1.0):
+        self.screen = screen
+        self.image = self.format_ui_image(file_name, scale)
+
+    def draw(self, x: int, y: int):
+        self.screen.blit(self.image, (x, y))
+
+    def format_ui_image(file_name: str, scale: float = 1.0):
+        # load the image and scale it to fit the screen
+        image_path = os.path.join(UI_PATH, file_name)
+        image = pygame.image.load(image_path).convert_alpha()
+        w = int(image.get_width() * scale)
+        h = int(image.get_height() * scale)
+        image = pygame.transform.scale(image, (w, h))
+        return image

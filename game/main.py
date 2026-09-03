@@ -33,7 +33,7 @@ scene_manager.scenes["surveyor_three"] = SurveyorThreeScene(screen, clock, game)
 scene_manager.scenes["map_crumpling"] = MapCrumplingScene(screen, clock, game)
 scene_manager.scenes["introduction"] = IntroductionScene(screen, clock, game)
 
-scene_manager.switch_scene("menu")
+scene_manager.switch_scene("office")
 
 while game.is_running():
     next_scene = scene_manager.current_scene.update()

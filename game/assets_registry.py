@@ -207,84 +207,9 @@ class Animations:
     my_map = Animation([Frame(path="items/player_map.png")], ticks_per_frame=30)
     map_1 = Animation([Frame(path="items/surveyor_1_map.png")], ticks_per_frame=30)
     map_2 = Animation([Frame(path="items/surveyor_2_map.png")], ticks_per_frame=30)
-    map_3 = Animation([Frame(path="items/surveyor_3_map.png")], ticks_per_frame=30)
-    # Static tiles
-    # column_top = Animation([Frame(path="tiles/columntop.png", size=(16, 16))])
-    # column_front = Animation([Frame(path="tiles/columnfront.png", size=(16, 16))])
-    # floor = Animation([Frame(path="tiles/floor.png", size=(16, 16))])
-    # floor_cracked = Animation([Frame(path="tiles/floorcracked.png", size=(16, 16))])
-    # wall = Animation([Frame(path="tiles/wall.png", size=(16, 16))])
-    # wall_cracked = Animation([Frame(path="tiles/wallcracked.png", size=(16, 16))])
-    # wall_top_hor = Animation([Frame(path="tiles/walltophor.png", size=(16, 16))])
-    # wall_top_ver = Animation([Frame(path="tiles/walltopvert.png", size=(16, 16))])
-    # water = Animation([
-    #     Frame(path="tiles/watertrap1.png"),
-    #     Frame(path="tiles/watertrap2.png"),
-    #     Frame(path="tiles/watertrap3.png"),
-    #     Frame(path="tiles/watertrap4.png"),], ticks_per_frame=270, loop=True)
-    # void = Animation([
-    #     Frame(path="tiles/voidtrap1.png"),
-    #     Frame(path="tiles/voidtrap2.png"),
-    #     Frame(path="tiles/voidtrap3.png"),
-    #     Frame(path="tiles/voidtrap4.png"),], ticks_per_frame=180, loop=True)
+    map_3 = Animation([Frame(path="items/surveyor_3_map.png")])
 
-
-    # # structures
-    # open_door_front = Animation([Frame(path="structures/gate_open_front.png", offset=(0, -10))])
-    # open_door_left = Animation([Frame(path="structures/gate_open_side.png", offset=(0, 12))])
-    # open_door_right = Animation([Frame(path="structures/gate_open_side.png", offset=(0, 12))])
-    # open_door_back = Animation([Frame(path="structures/gate_open_front.png", offset=(0, -10))])
-
-    # closed_door_front = Animation([Frame(path="structures/gate_closed_front.png", offset=(0, 2))])
-    # closed_door_left = Animation([Frame(path="structures/gate_closed_side.png", offset=(12, 0))])
-    # closed_door_right = Animation([Frame(path="structures/gate_closed_side.png", offset=(12, 0))])
-    # closed_door_back = Animation([Frame(path="structures/gate_closed_front.png", offset=(0, 2))])
-
-    # torch_lit_front = Animation([
-    #     Frame(path="structures/torch_lit_front_1.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_front_2.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_front_3.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_front_4.png", offset=(0, -4)),
-    #     ], ticks_per_frame=90, loop=True)
-    # torch_lit_left = Animation([
-    #     Frame(path="structures/torch_lit_left_1.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_left_2.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_left_3.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_left_4.png", offset=(0, -4)),
-    #     ], ticks_per_frame=30, loop=True)
-    # torch_lit_right = Animation([
-    #     Frame(path="structures/torch_lit_right_1.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_right_2.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_right_3.png", offset=(0, -4)),
-    #     Frame(path="structures/torch_lit_right_4.png", offset=(0, -4)),
-    #     ], ticks_per_frame=30, loop=True)
-    
-    # portal = Animation([Frame(path="structures/portal.png")])
-    
-    # torch_unlit_front = Animation([Frame(path="structures/torch_unlit_front.png", offset=(0, -4))])
-    # torch_unlit_left = Animation([Frame(path="structures/torch_unlit_left.png", offset=(0, -4))])
-    # torch_unlit_right = Animation([Frame(path="structures/torch_unlit_right.png", offset=(0, -4))])
-    # visbility_overlay = Animation([Frame(color=(0, 0, 0, 180), size=(800, 600))])
-
-    # # items
-    # scroll = Animation([
-    #     Frame(path="items/scroll.png", size=(16, 16)),
-    #     Frame(path="items/scroll.png", size=(16, 16), offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # fire_spell = Animation([
-    #     Frame(path="items/firespell.png"),
-    #     Frame(path="items/firespell.png", offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # water_spell = Animation([
-    #     Frame(path="items/waterspell.png"),
-    #     Frame(path="items/waterspell.png", offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # grass_spell = Animation([
-    #     Frame(path="items/grassspell.png"),
-    #     Frame(path="items/grassspell.png", offset=(0, -2))
-    #     ], ticks_per_frame=30, loop=True)
-    # deactivated_spell = Animation([Frame(path="items/deactivatedspell.png", size=(16, 16))])
-
+    weather_book = Animation([Frame(path="items/book_fetteresso.png")], ticks_per_frame=30)
 
 class Sound:
     birds_chirping = SoundEffect(path="birds_chirping.mp3")
