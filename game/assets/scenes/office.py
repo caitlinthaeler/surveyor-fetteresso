@@ -11,14 +11,33 @@ def _invisible_anim(w: int, h: int) -> Animation:
     return Animation([Frame(color=(0, 0, 0, 0), size=(w, h))], ticks_per_frame=30)
 
 
-# Original centres for the 3 surveyor map icons — adjust to match your artwork.
+# Default tint for each surveyor's map overlay; the desk overlay borrows the
+# tint of whichever map is currently on the desk.
+_MAP_TINTS = [
+    (80, 140, 230),   # map 1 — blue
+    (90, 200, 110),   # map 2 — green
+    (230, 150, 80),   # map 3 — orange
+]
+_TINT_ALPHA = 55
+
+
+def _tint_anim(w: int, h: int, rgb: tuple) -> Animation:
+    return Animation([Frame(color=(*rgb, _TINT_ALPHA), size=(w, h))], ticks_per_frame=30)
+
+
+# Original centres / sizes for the 3 surveyor map icons — adjust to match your artwork.
 _MAP_ORIGINS = [
     (180, 150),   # map 1
     (300, 150),   # map 2
     (225, 250),   # map 3
 ]
-# Where the selected map icon slides to on the desk.
-_MAP_DESK_CENTER = (SCREEN_WIDTH - 200, SCREEN_HEIGHT - 150)
+_MAP_SIZES = [
+    (120, 80),    # map 1
+    (100, 90),    # map 2
+    (200, 60),    # map 3
+]
+# How fast a map slides between wall and desk (0..1 per frame lerp factor).
+_SLIDE_SPEED = 0.18
 
 
 class OfficeState(Enum):
@@ -65,55 +84,57 @@ class OfficeScene(Scene):
             AnimatedButton(
                 surface=self.screen,
                 next_state=OfficeState.SURVEYOR_1,
-                animation=_invisible_anim(120, 80),
+                animation=_tint_anim(*_MAP_SIZES[0], _MAP_TINTS[0]),
                 x=_MAP_ORIGINS[0][0], y=_MAP_ORIGINS[0][1],
                 anchor="center",
-                width=120, height=80,
+                width=_MAP_SIZES[0][0], height=_MAP_SIZES[0][1],
                 hover_transforms=[tint_hover((255, 255, 255))],
             ),
             AnimatedButton(
                 surface=self.screen,
                 next_state=OfficeState.SURVEYOR_2,
-                animation=_invisible_anim(100, 90),
+                animation=_tint_anim(*_MAP_SIZES[1], _MAP_TINTS[1]),
                 x=_MAP_ORIGINS[1][0], y=_MAP_ORIGINS[1][1],
                 anchor="center",
-                width=100, height=90,
+                width=_MAP_SIZES[1][0], height=_MAP_SIZES[1][1],
                 hover_transforms=[tint_hover((255, 255, 255))],
             ),
             AnimatedButton(
                 surface=self.screen,
                 next_state=OfficeState.SURVEYOR_3,
-                animation=_invisible_anim(200, 60),
+                animation=_tint_anim(*_MAP_SIZES[2], _MAP_TINTS[2]),
                 x=_MAP_ORIGINS[2][0], y=_MAP_ORIGINS[2][1],
                 anchor="center",
-                width=200, height=60,
+                width=_MAP_SIZES[2][0], height=_MAP_SIZES[2][1],
                 hover_transforms=[tint_hover((255, 255, 255))],
-            ),
-
-            AnimatedButton(
-                surface=self.screen,
-                next_state=OfficeState.WEATHER_BOOK,
-                animation=Assets.animations.weather_book,
-                x=50, y=SCREEN_HEIGHT - 15,
-                anchor="bottomleft",
-                width=19*3, height=26*3,
-                hover_transforms=[tint_hover((105, 205, 205)), scale_hover(1.1)],
             ),
         ]
 
-        self._map_buttons = self.buttons[2:5]
+        self.record_book: AnimatedButton = AnimatedButton(
+            surface=self.screen,
+            next_state=OfficeState.WEATHER_BOOK,
+            animation=Assets.animations.weather_book,
+            x=50, y=SCREEN_HEIGHT - 15,
+            anchor="bottomleft",
+            width=19*3, height=26*3,
+            hover_transforms=[tint_hover((105, 205, 205)), scale_hover(1.1)],
+        )
+
+        self._map_buttons = self.buttons[2:]
 
         # Desk hit area — only drawn and clickable when a map is selected.
         self._desk_button = AnimatedButton(
             surface=self.screen,
             next_state=OfficeState.DESK,
             animation=_invisible_anim(400, 100),
-            x=SCREEN_WIDTH - BORDER, 
+            x=SCREEN_WIDTH - BORDER,
             y=SCREEN_HEIGHT,
             anchor="bottomright",
             width=425, height=75,
             hover_transforms=[tint_hover((255, 255, 255))],
         )
+        # Per-map slide progress: 0.0 = resting on the wall, 1.0 = spread on the desk.
+        self._map_slide = [0.0, 0.0, 0.0]
 
     def update(self):
         if self.state == OfficeState.MENU:
@@ -147,19 +168,31 @@ class OfficeScene(Scene):
 
     def render(self):
         self.screen.blit(self.office_background, (0, 0))
+
+        # Slide/expand each map between its wall origin and the desk hit area.
+        desk_cx, desk_cy = self._desk_button.base_rect.center
+        desk_w, desk_h = self._desk_button.base_rect.size
         for i, btn in enumerate(self._map_buttons):
-            btn.base_rect.center = _MAP_DESK_CENTER if game_data.current_map == (i + 1) else _MAP_ORIGINS[i]
+            target = 1.0 if game_data.current_map == (i + 1) else 0.0
+            self._map_slide[i] += (target - self._map_slide[i]) * _SLIDE_SPEED
+            t = self._map_slide[i]
+            ox, oy = _MAP_ORIGINS[i]
+            ow, oh = _MAP_SIZES[i]
+            btn.base_rect.size = (round(ow + (desk_w - ow) * t), round(oh + (desk_h - oh) * t))
+            btn.base_rect.center = (round(ox + (desk_cx - ox) * t), round(oy + (desk_cy - oy) * t))
+
         for button in self.buttons:
             button.draw()
-        clickable = list(self.buttons)
+
+        if game_data.flags.check("rained_1797"):
+            self.record_book.draw()
+            clickable = self.buttons + [self.record_book]
+        else:
+            clickable = list(self.buttons)
         if game_data.current_map is not None:
-            self._desk_button.draw()
-            label = FONT.render("compare", True, (220, 200, 140))
-            self.screen.blit(label, (
-                SCREEN_WIDTH - BORDER - 200, 
-                SCREEN_HEIGHT - 100,
-            ))
-            clickable.append(self._desk_button)
+            self._desk_button.draw()  # drawn last -> sits on top of the slid map
+            # desk button first in the list so it wins clicks in the overlap zone
+            clickable.insert(0, self._desk_button)
         for _ in self.handle_events(clickable):
             pass
 

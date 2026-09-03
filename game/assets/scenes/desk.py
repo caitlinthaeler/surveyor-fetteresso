@@ -5,7 +5,7 @@ from assets_registry import Assets
 from classes import AnimatedButton, Button, get_clicked_button, scale_hover, tint_hover, format_background
 from config import BORDER, SCREEN_WIDTH, SCREEN_HEIGHT, FONT
 
-_MAP_SCALE = 0.85
+_MAP_SCALE = 0.7
 from game_manager import game_data
 
 _SURVEYOR_NAMES = {
@@ -22,6 +22,12 @@ _SURVEYOR_ICONS = {
 
 _COL_LABEL = (220, 200, 140)
 
+# Top-left corner of each drawn map and the cursor-hint circle styling
+_SURVEYOR_MAP_POS = (420, 140)
+_CURSOR_HINT_RADIUS = 18
+_CURSOR_HINT_COLOR = (220, 30, 30)   # tint; alpha applied when drawn
+_CURSOR_HINT_ALPHA = 90
+
 SURVEYOR_MAP_ANIM = {
     1: Assets.animations.map_1,
     2: Assets.animations.map_2,
@@ -35,10 +41,11 @@ SURVEYORS = {
 }
 
 # Per-map anomaly button positions: (center_x, center_y, radius)
+# Centred on each map's actual difference vs the player's map.
 _ANOMALY_POS = {
-    1: (680, 260, 50),
-    2: (695, 310, 50),
-    3: (545, 275, 50),
+    1: (613, 254, 30),
+    2: (603, 298, 44),
+    3: (566, 305, 70),
 }
 
 anomaly_flags = {
@@ -63,6 +70,7 @@ class DeskScene(Scene):
         self.game = game
         self.state = DeskState.IDLE
         self.show_investigate_button = False
+        self.surveyor_map_rect = pygame.Rect(_SURVEYOR_MAP_POS, (0, 0))
 
         self.music    = Assets.background_music.sf_map
         self.ambience = Assets.sounds.thumping_rain
@@ -124,6 +132,7 @@ class DeskScene(Scene):
             self.state = DeskState.IDLE
         elif self.state == DeskState.INVESTIGATE:
             game_data.flags.raise_flag(anomaly_flags.get(game_data.current_map, ""))
+            self.show_investigate_button = False
             self.state = DeskState.IDLE
             return SURVEYORS.get(game_data.current_map, "office")
         elif self.state == DeskState.QUIT:
@@ -135,6 +144,7 @@ class DeskScene(Scene):
         self.screen.blit(self.desk_background, (0, 0))
         self._draw_maps()
         self._draw_buttons()
+        self._draw_map_cursor()
         for _ in self._handle_events():
             pass
 
@@ -148,24 +158,25 @@ class DeskScene(Scene):
     def _draw_maps(self):
         # Left — player's map
         my_map = self._scale_map(Assets.animations.my_map.current_frame.image)
-        self.screen.blit(my_map, (50, 100))
-        self._draw_map_label(50, 70, "Your Map", None)
+        self.screen.blit(my_map, (40, 140))
+        self._draw_map_label(50, 110, "Your Map", None)
 
         # Right — selected surveyor's map
         surveyor_anim = SURVEYOR_MAP_ANIM.get(game_data.current_map)
         if surveyor_anim:
             s_map = self._scale_map(surveyor_anim.current_frame.image)
-            self.screen.blit(s_map, (450, 100))
+            self.screen.blit(s_map, _SURVEYOR_MAP_POS) # 450
+            self.surveyor_map_rect = s_map.get_rect(topleft=_SURVEYOR_MAP_POS)
             name = _SURVEYOR_NAMES.get(game_data.current_map, "")
-            self._draw_map_label(450, 70, name, None)
+            self._draw_map_label(450, 110, name, None)
 
             # Surveyor icon — bottom right
             icon = _SURVEYOR_ICONS.get(game_data.current_map)
             if icon:
                 icon_surf = icon.current_frame.image
                 self.screen.blit(icon_surf, (
-                    SCREEN_WIDTH - BORDER - icon_surf.get_width(),
-                    SCREEN_HEIGHT - BORDER - icon_surf.get_height(),
+                    580,
+                    60,
                 ))
 
     def _draw_map_label(self, x: int, y: int, name: str, icon):
@@ -178,24 +189,39 @@ class DeskScene(Scene):
         label_y = y + ((icon_surf.get_height() - label.get_height()) // 2 if icon_surf else 0)
         self.screen.blit(label, (draw_x, label_y))
 
+    def _draw_map_cursor(self):
+        # Hint that the surveyor's map is interactable (and the player's is not):
+        # a small tinted circle follows the cursor while it's over the surveyor
+        # map, until this map's anomaly has been found.
+        if game_data.flags.check(anomaly_flags.get(game_data.current_map, "")):
+            return
+        if not self.show_investigate_button and self.surveyor_map_rect.collidepoint(pygame.mouse.get_pos()):
+            r = _CURSOR_HINT_RADIUS
+            hint = pygame.Surface((r * 2, r * 2), pygame.SRCALPHA)
+            pygame.draw.circle(hint, (*_CURSOR_HINT_COLOR, _CURSOR_HINT_ALPHA), (r, r), r)
+            pygame.draw.circle(hint, (*_CURSOR_HINT_COLOR, 200), (r, r), r, 2)
+            mx, my = pygame.mouse.get_pos()
+            self.screen.blit(hint, (mx - r, my - r))
+
+    def _anomaly_found(self) -> bool:
+        return game_data.flags.check(anomaly_flags.get(game_data.current_map, ""))
+
     def _draw_buttons(self):
         for btn in self.nav_buttons:
             btn.draw()
 
-        # Anomaly buttons are invisible — draw a red circle outline only after clicked
-        if self.show_investigate_button and game_data.current_map in _ANOMALY_POS:
+        if game_data.current_map in _ANOMALY_POS and (self.show_investigate_button or self._anomaly_found()):
             cx, cy, r = _ANOMALY_POS[game_data.current_map]
             pygame.draw.circle(self.screen, (220, 30, 30), (cx, cy), r, 3)
-            self.investigate_button.draw()
-
-    # ----------------------------------------------------------------- events
+            if self.show_investigate_button and not self._anomaly_found():
+                self.investigate_button.draw()
 
     def _handle_events(self):
         active = self.anomaly_buttons.get(game_data.current_map)
         clickable = list(self.nav_buttons)
-        if active:
+        if active and not self._anomaly_found():
             clickable.append(active)
-        if self.show_investigate_button:
+        if self.show_investigate_button and not self._anomaly_found():
             clickable.append(self.investigate_button)
 
         for event in pygame.event.get():
@@ -208,3 +234,4 @@ class DeskScene(Scene):
                 yield clicked
                 continue
             yield event
+ 

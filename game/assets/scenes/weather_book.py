@@ -21,7 +21,7 @@ PAGES = [
         width=180, 
         height=180,
         components=[
-        TextComponent("Diary of the Weather", position=(100, 20), anchor='center', color='light', width=180),
+        TextComponent("Diary of the Weather", position=(100, 20), anchor='center', color='dark', width=180),
     ]),
     Page(
         width=180, 

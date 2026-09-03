@@ -85,6 +85,12 @@ class NewGame:
     def flags(self):
         return game_data.flags
 
+    def reset(self):
+        """Wipe all progress and start a fresh run."""
+        game_data._reset()
+        self.state = RunState.RUNNING
+        self.save()
+
     def raise_flag(self, name: str):
         game_data.flags.raise_flag(name)
         self.save()

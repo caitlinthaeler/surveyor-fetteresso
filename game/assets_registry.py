@@ -146,7 +146,7 @@ player_fps = 10
 player_run_fps = 5
 class Animations:
     world_map_icon= Animation([
-        Frame(path="items/main_map.png", size=(140, 100))
+        Frame(path="items/map_icon_fetteresso.png", size=(100, 100))
         ], ticks_per_frame=30)
     
     menu_icon = Animation([

@@ -21,6 +21,16 @@
         "file": "first_meeting_encourage"
       },
       {
+        "text": "I heard that you got a bit turned around during your last survey?",
+        "file": "casual_lost",
+        "requires_all": [
+          "michael_got_lost"
+        ],
+        "requires_none": [
+          "michael_lost_addressed"
+        ]
+      },
+      {
         "text": "I'll be back later.",
         "file": "first_meeting_leave"
       }

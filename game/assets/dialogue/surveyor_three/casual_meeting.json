@@ -23,6 +23,9 @@
         "file": "casual_lost",
         "requires_all": [
           "michael_got_lost"
+        ],
+        "requires_none": [
+          "michael_lost_addressed"
         ]
       }
     ]

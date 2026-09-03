@@ -28,7 +28,9 @@
   ],
   "next": {
     "type": "exit",
-    "flags_raise": [],
+    "flags_raise": [
+      "michael_lost_addressed"
+    ],
     "to": "world_map"
   }
 }

@@ -80,7 +80,7 @@ class MenuScene(Scene):
     def update(self) -> str | None:
         if self.state == MenuState.NEW_GAME:
             self.state = MenuState.CHOICES
-            self._game.save()
+            self._game.reset()
             return "introduction"
         elif self.state == MenuState.CONTINUE:
             self.state = MenuState.CHOICES
