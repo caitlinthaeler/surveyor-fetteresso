@@ -57,7 +57,7 @@ class EndSequenceScene(Scene):
             self._button("office",  "Not yet",    cx + 95, SCREEN_HEIGHT - 110, 170, 46),
         ]
         self.choice_buttons = [
-            self._button(f"pick_{num}", f"Choose Surveyor{name}",
+            self._button(f"pick_{num}", f"Choose Surveyor {name}",
                          cx, 190 + i * 95, 300, 62)
             for i, (num, name, _) in enumerate(_PICKS)
         ] + [self._back_button()]

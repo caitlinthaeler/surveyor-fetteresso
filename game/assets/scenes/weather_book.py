@@ -48,8 +48,7 @@ PAGES = [
         TextComponent("1796", position=(PAGE_W // 2, 20), anchor='center', width=180),
 
         TextComponent("Winter", position=(0, 40), width=180),
-        TextComponent("Dry", position=(PAGE_W, 40), anchor='topright'),
-
+        TextComponent("Rain", position=(PAGE_W, 40), anchor='topright'),
 
         TextComponent("Spring", position=(0, 60)),
         TextComponent("Cloudy", position=(PAGE_W, 60), anchor='topright'),
@@ -58,7 +57,7 @@ PAGES = [
         TextComponent("Dry", position=(PAGE_W, 80), anchor='topright'),
 
         TextComponent("Autumn", position=(0, 100)),
-        TextComponent("Dry", position=(PAGE_W, 100), anchor='topright'),
+        TextComponent("Rain", position=(PAGE_W, 100), anchor='topright'),
     ]),
     Page(width=180, 
         height=180,
@@ -66,16 +65,16 @@ PAGES = [
         TextComponent("1797", position=(PAGE_W // 2, 20), anchor='center'),
 
         TextComponent("Winter", position=(0, 40), anchor='topleft'),
-        TextComponent("Rain", position=(PAGE_W, 40), anchor='topright'),
+        TextComponent("Dry", position=(PAGE_W, 40), anchor='topright'),
 
         TextComponent("Spring", position=(0, 60)),
-        TextComponent("Rain", position=(PAGE_W, 60), anchor='topright'),
+        TextComponent("Dry", position=(PAGE_W, 60), anchor='topright'),
 
         TextComponent("Summer", position=(0, 80)),
-        TextComponent("Rain", position=(PAGE_W, 80), anchor='topright'),
+        TextComponent("Cloudy", position=(PAGE_W, 80), anchor='topright'),
 
         TextComponent("Autumn", position=(0, 100)),
-        TextComponent("Rain", position=(PAGE_W, 100), anchor='topright'),
+        TextComponent("Dry", position=(PAGE_W, 100), anchor='topright'),
     ]),
     Page(components=[
         TextComponent("1798", position=(PAGE_W // 2, 20), anchor='center'),

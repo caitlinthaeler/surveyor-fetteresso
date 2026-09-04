@@ -70,7 +70,7 @@ class MenuScene(Scene):
 
         self.spacebar = pygame.image.load(os.path.join(UI_PATH, "spacebar.png")).convert_alpha()
         self.spacebar = pygame.transform.scale(self.spacebar, (200, 70))
-        self.info = pygame.image.load(os.path.join(UI_PATH, "info.png")).convert()
+        self.info = pygame.image.load(os.path.join(UI_PATH, "end_screen_fetteresso.png")).convert()
         self.info = pygame.transform.scale(self.info, self.screen.get_size())
 
 
@@ -112,23 +112,23 @@ class MenuScene(Scene):
 
         # display text:
         text = [
-            "INSTRUCTION 1 BLAH BLAH BLAH BLAH BLAH",
+            "Press spacebar or click to advance dialogue.",
             "",
-            "INSTRUCTION 2 BLAH BLAH BLAH BLAH BLAH",
+            "Select a map to compare it against your own.",
+            "",
+            "Make sure to introduce yourself to the surveyors before you",
+            "investigate their maps.",
+            "",
+            "Visit the surveyors as many times as you like to get to know them better.",
             "",
             "",
-            "To pause or restart the level, press the spacebar:",
+            "The BOOK will appear in the office when necessary.",
             "",
         ]
         for i, line in enumerate(text):
             self.screen.blit(FONT.render(line,
                 True, (0, 0, 0)), (BORDER*2, BORDER*7+25*i)
             )
-        
-        # display key graphics:
-        space_x, space_y = 572, 260
-        self.screen.blit(self.spacebar, (space_x, space_y))
-        self.screen.blit(FONT.render("space", False, (0, 0, 0)), (space_x+30, space_y+20))
 
     def render_settings_screen(self):
         for _ in self.handle_events([self.back_button]): pass
