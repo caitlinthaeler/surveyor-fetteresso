@@ -3,7 +3,7 @@
   "lines": [
     {
       "speaker": "Surveyor Dave",
-      "text": "Well, I don't know what to say…"
+      "text": "Well, I don't know what to say..."
     },
     {
       "speaker": "Surveyor Dave",
@@ -11,24 +11,23 @@
     },
     {
       "speaker": "Surveyor Dave",
-      "text": "…"
-    },
-    {
-      "speaker": "You",
-      "text": "Anything else?"
-    },
-    {
-      "speaker": "Surveyor Dave",
-      "text": "…"
-    },
-    {
-      "speaker": "You",
-      "text": "Ok! Thank you."
+      "text": "..."
     }
   ],
   "next": {
-    "type": "exit",
-    "flags_raise": [],
-    "to": "world_map"
+    "type": "choices",
+    "flags_raise": [
+      "surveyor_two_met"
+    ],
+    "options": [
+      {
+        "text": "Anything else?",
+        "file": "first_meeting_else"
+      },
+      {
+        "text": "Ok! Thank you.",
+        "file": "first_meeting_leave"
+      }
+    ]
   }
 }

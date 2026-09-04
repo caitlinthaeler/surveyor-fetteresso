@@ -3,7 +3,7 @@
   "lines": [
     {
       "speaker": "Surveyor Dave",
-      "text": "…"
+      "text": "..."
     },
     {
       "speaker": "Surveyor Dave",
@@ -11,11 +11,11 @@
     },
     {
       "speaker": "You",
-      "text": "Hello… I'm the newly appointed surveyor for Fetteresso Estate. Were you not expecting me? I'm here to select an assistant."
+      "text": "Hello... I'm the newly appointed surveyor for Fetteresso Estate. Were you not expecting me? I'm here to select an assistant."
     },
     {
       "speaker": "Surveyor Dave",
-      "text": "Oh! Of course, of course… What do you need?"
+      "text": "Oh! Of course, of course... What do you need?"
     }
   ],
   "next": {
@@ -29,7 +29,7 @@
         "file": "first_meeting_about"
       },
       {
-        "text": "Ok! Thank you.",
+        "text": "Now that I think about it, I should probably be on my way.",
         "file": "first_meeting_leave"
       }
     ]

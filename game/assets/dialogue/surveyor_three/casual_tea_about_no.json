@@ -3,7 +3,11 @@
   "lines": [
     {
       "speaker": "You",
-      "text": "I'd rather remain focused on my work."
+      "text": "I have something to take care of today, so I should go."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "That's fine. I understand."
     }
   ],
   "next": {

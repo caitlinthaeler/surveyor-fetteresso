@@ -3,7 +3,19 @@
   "lines": [
     {
       "speaker": "You",
-      "text": "That sounds lovely."
+      "text": "It sounds like the perfect way to make the job more enjoyable"
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "I agree. I think it will be a good way to get to know each other better."
+    },
+    {
+      "speaker": "You",
+      "text": "I look forward to it."
+    },
+    {
+      "speaker": "Surveyor Michael",
+      "text": "Me too."
     }
   ],
   "next": {

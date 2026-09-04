@@ -1,9 +1,13 @@
 {
-  "id": "casual_talents_yes",
+  "id": "casual_passing",
   "lines": [
     {
       "speaker": "Surveyor Dave",
-      "text": "Oh, well... I'll see you later."
+      "text": "..."
+    },
+    {
+      "speaker": "Player",
+      "text": "Ok! Thank you."
     }
   ],
   "next": {
