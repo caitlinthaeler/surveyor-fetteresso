@@ -214,7 +214,7 @@ class Animations:
     weather_book_open = Animation([Frame(path="items/book_fetteresso_open.png")], ticks_per_frame=30)
 
 class Sound:
-    birds_chirping = SoundEffect(path="birds_chirping.mp3")
+    birds_chirping = SoundEffect(path="countryside.mp3")
     page_turning = SoundEffect(path="book.mp3", volume=2)
     confirm = SoundEffect(path="confirm.mp3")
     default_button_click = SoundEffect(path="menu_selection.mp3", volume=0.4, loop=True)

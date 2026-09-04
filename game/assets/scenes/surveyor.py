@@ -12,6 +12,7 @@ class SurveyorScene(Scene):
     def __init__(self, screen: pygame.Surface, clock: pygame.time.Clock, game, vhs=None):
         super().__init__(screen, clock)
         self.game = game
+        self.music = Assets.background_music.sf_map
         self.ambience = Assets.sounds.thumping_rain
         self._dialogue = DialogueManager(screen, clock, vhs)
         self.background = format_background(screen, self.background_file) if self.background_file else None

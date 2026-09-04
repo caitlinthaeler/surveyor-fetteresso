@@ -2,6 +2,10 @@
   "id": "casual_tea_about_no",
   "lines": [
     {
+      "speaker": "Surveyor Michael",
+      "text": "Well... it was just a thought."
+    },
+    {
       "speaker": "You",
       "text": "I have something to take care of today, so I should go."
     },

@@ -124,7 +124,7 @@ class OfficeScene(Scene):
             surface=self.screen,
             next_state=OfficeState.WEATHER_BOOK,
             animation=Assets.animations.weather_book,
-            x=50, y=SCREEN_HEIGHT - 15,
+            x=50, y=SCREEN_HEIGHT - 100,
             anchor="bottomleft",
             width=19*3, height=26*3,
             hover_transforms=[tint_hover((105, 205, 205)), scale_hover(1.1)],

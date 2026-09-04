@@ -22,7 +22,7 @@ from assets.scenes.end_sequence import EndSequenceScene
 from game_manager import NewGame
 
 clock = pygame.time.Clock()
-vhs = VHSEffect(screen.get_size(), intensity=0.8)
+vhs = VHSEffect(screen.get_size(), intensity=0.5)
 
 def _present():
     vhs.apply(screen)

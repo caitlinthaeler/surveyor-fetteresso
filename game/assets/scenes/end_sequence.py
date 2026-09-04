@@ -29,9 +29,8 @@ _COL_TEXT = (240, 235, 220)
 
 
 class Stage(Enum):
-    PROMPT  = 0   # "Proceed with Final Selection"
-    WARNING = 1   # confirmation overlay
-    CHOICES = 2   # pick a surveyor
+    WARNING = 0   # confirmation overlay
+    CHOICES = 1   # pick a surveyor
 
 
 class EndSequenceScene(Scene):
@@ -40,26 +39,25 @@ class EndSequenceScene(Scene):
         self._game = game
         self._dialogue = DialogueManager(screen, clock, vhs)
         self.background = format_background(self.screen, "office_main.png")
+        self.ending_background = format_background(self.screen, "end_screen_fetteresso.png")
 
         self.music    = Assets.background_music.sf_map
         self.ambience = Assets.sounds.thumping_rain
 
-        self.stage = Stage.PROMPT
+        self.ending_music    = Assets.background_music.sf_menu
+        self.ending_ambience = Assets.sounds.birds_chirping
+
+        self.stage = Stage.WARNING
         self._next_scene: str | None = None
 
         cx = SCREEN_WIDTH // 2
 
-        self.prompt_buttons = [
-            self._button("proceed", "Proceed with Final Selection",
-                         cx, SCREEN_HEIGHT // 2, 300, 50),
-            self._back_button(),
-        ]
         self.warning_buttons = [
             self._button("choices", "Decide now", cx - 95, SCREEN_HEIGHT - 110, 170, 46),
-            self._button("prompt",  "Not yet",    cx + 95, SCREEN_HEIGHT - 110, 170, 46),
+            self._button("office",  "Not yet",    cx + 95, SCREEN_HEIGHT - 110, 170, 46),
         ]
         self.choice_buttons = [
-            self._button(f"pick_{num}", f"Choose {name} (Surveyor {num})",
+            self._button(f"pick_{num}", f"Choose Surveyor{name}",
                          cx, 190 + i * 95, 300, 62)
             for i, (num, name, _) in enumerate(_PICKS)
         ] + [self._back_button()]
@@ -97,9 +95,7 @@ class EndSequenceScene(Scene):
     def render(self):
         self.screen.blit(self.background, (0, 0))
 
-        if self.stage is Stage.PROMPT:
-            buttons = self.prompt_buttons
-        elif self.stage is Stage.WARNING:
+        if self.stage is Stage.WARNING:
             self._draw_warning()
             buttons = self.warning_buttons
         else:
@@ -138,12 +134,8 @@ class EndSequenceScene(Scene):
                 continue
             action = clicked.action()
             if action == "office":
-                self.stage = Stage.PROMPT
-                self._next_scene = "office"
-            elif action == "proceed":
                 self.stage = Stage.WARNING
-            elif action == "prompt":
-                self.stage = Stage.PROMPT
+                self._next_scene = "office"
             elif action == "choices":
                 self.stage = Stage.CHOICES
             elif action.startswith("pick_"):
@@ -153,5 +145,7 @@ class EndSequenceScene(Scene):
     def _run_ending(self, num: int):
         start = next(fid for n, _, fid in _PICKS if n == num)
         game_data.flags.raise_flag("game_complete")
-        self.stage = Stage.PROMPT
-        self._next_scene = self._dialogue.run("player", self._game, start=start) or "menu"
+        self.stage = Stage.WARNING
+        self._next_scene = self._dialogue.run(
+            "player", self._game, start=start, background=self.ending_background, music=self.ending_music, ambience=self.ending_ambience
+        ) or "menu"

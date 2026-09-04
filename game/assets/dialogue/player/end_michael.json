@@ -6,7 +6,7 @@
     {"speaker": "", "text": "You finished on schedule."},
     {"speaker": "", "text": "The new master of Fetteresso Estate was pleased with your work, and you were paid in full."},
     {"speaker": "", "text": "Your map is often heralded as an example of exemplary work."},
-    {"speaker": "", "text": "Michael and the Surveyor worked together for many years. When the Surveyor eventually retired, they were happy to leave their craft in Michael’s capable hands."}
+    {"speaker": "", "text": "Michael and the Surveyor worked together for many years. When the Surveyor eventually retired, they were happy to leave their craft in Michael's capable hands."}
   ],
   "next": {
     "type": "exit",

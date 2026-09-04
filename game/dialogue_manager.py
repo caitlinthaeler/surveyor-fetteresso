@@ -47,7 +47,7 @@ import json
 import sys
 from collections import deque
 from config import DIALOGUE_DIR, FONT, SCREEN_WIDTH, SCREEN_HEIGHT, BORDER, FPS
-from assets_registry import Assets
+from assets_registry import Assets, AudioChannel
 
 # Map speaker names to their idle sprite. Any speaker not listed shows no sprite.
 _SPEAKER_SPRITES = {
@@ -89,7 +89,8 @@ class DialogueManager:
 
     # ------------------------------------------------------------------ public
 
-    def run(self, surveyor_dir: str, game, start: str = None) -> str:
+    def run(self, surveyor_dir: str, game, start: str = None,
+            background: pygame.Surface = None, music=None, ambience=None) -> str:
         """
         Run all queued dialogue files in order, blocking until the
         conversation ends. Returns the name of the scene to transition to
@@ -102,20 +103,29 @@ class DialogueManager:
         self._surveyor_dir = surveyor_dir
         self._queue.clear()
 
+        if music:
+            music.play()
+        if ambience:
+            ambience.play(AudioChannel.BACKGROUND_AMBIENCE.value)
+
         if start is None:
             master_path = os.path.join(DIALOGUE_DIR, surveyor_dir, "master.json")
             start = self._resolve_master(master_path)
         if not start:
             return "world_map"
 
-        self._bg = self.screen.copy()
+        self._bg = (background or self.screen).copy()
         self._push(start)
 
-        while self._queue:
-            path = self._queue.popleft()
-            result = self._run_file(path)
-            if result:
-                return result
+        try:
+            while self._queue:
+                path = self._queue.popleft()
+                result = self._run_file(path)
+                if result:
+                    return result
+        finally:
+            if ambience:
+                ambience.stop()
 
         return "world_map"
 
@@ -227,6 +237,8 @@ class DialogueManager:
                         if r.collidepoint(event.pos):
                             return options[i]["file"]
             self._draw_choices(options, rects, mouse)
+            if self._vhs:
+                self._vhs.apply(self.screen)
             pygame.display.flip()
             self.clock.tick(FPS)
 
